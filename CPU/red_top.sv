@@ -1,4 +1,4 @@
-module top #(
+module red_top #(
     parameter ADDRESS_WIDTH = 5,
               ALUctrl_WIDTH = 3,
               DATA_WIDTH = 32
@@ -15,8 +15,10 @@ module top #(
   input logic [ADDRESS_WIDTH-1:0] rs1,
   input logic [ADDRESS_WIDTH-1:0] rs2,
   input logic [ADDRESS_WIDTH-1:0] rd,
+  input logic MemWrite,
+  input logic ResultSrc,
 
- // output logic  EQ,
+  output logic  Zero,
   output logic [DATA_WIDTH-1:0] a0
 
 );
@@ -64,7 +66,7 @@ ALU ALU (
    .regOp2 (regOp2),
    .ALUctrl (ALUctrl),
    .ALUout (ALUout),
-   .EQ (EQ)
+   .Zero (Zero)
 );
 
 datamem datamem (

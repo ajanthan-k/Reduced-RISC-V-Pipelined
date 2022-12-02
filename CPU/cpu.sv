@@ -9,16 +9,17 @@ module cpu #(
    
     // logic [ADDRESS_WIDTH-1:0] instr;
     // logic ImmSrc;
-    logic EQ;
+    logic Zero;
     logic [ADDRESS_WIDTH-1:0] PC;
     logic [ADDRESS_WIDTH-1:0] ImmOp;
     logic PCsrc;
     logic RegWrite;
     logic [3-1:0] ALUctrl; //needs to be 3 bit
     logic ALUsrc;
-    logic ImmSrc;
+    logic [1:0] ImmSrc;
     logic [ADDRESS_WIDTH-1:0] instr;
-    
+    logic ResultSrc;
+    logic MemWrite;
 
 //blue
 PC_top blue (
@@ -36,17 +37,19 @@ instrmem rom (
 );
 
 control ctrl (
-    .EQ(EQ),
-    .instr(instr[6:0]), //how to take the last 7 bits of instr from rom
-    .RegWrite(RegWrite),
-    .ALUctrl(ALUctrl),
-    .ALUsrc(ALUsrc),
+    .Instr(instr), //how to take the last 7 bits of instr from rom
+    .Zero(Zero),
+    .PCSrc(PCsrc),
+    .ResultSrc(ResultSrc),
+    .MemWrite(MemWrite),
+    .ALUControl(ALUctrl),
+    .ALUSrc(ALUsrc),
     .ImmSrc(ImmSrc),
-    .PCsrc(PCsrc)
+    .RegWrite(RegWrite)
 );
 
 extend sign_ext (
-    .Imm(instr),  //same here
+    .Instr(instr),  //same here
     .ImmSrc(ImmSrc),
     .ImmOp(ImmOp)
 );
@@ -56,13 +59,14 @@ red_top red(
   .ImmOp(ImmOp),
   .clk(clk),
   .RegWrite(RegWrite),
+  .MemWrite(MemWrite),
   .ALUctrl(ALUctrl),
   .ALUsrc(ALUsrc),
-  .rs1(instr[19:15]), //each are 5  bits long
-  .rs2(instr[24:20]), //does this work?
+  .rs1(instr[19:15]),
+  .rs2(instr[24:20]), 
   .rd(instr[11:7]),
-
-  .EQ(EQ),
+  .Zero(Zero),
+  .ResultSrc(ResultSrc),
   .a0(a0)
 );
 

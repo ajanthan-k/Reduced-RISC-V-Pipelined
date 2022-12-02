@@ -9,7 +9,7 @@ module ALU #(
     input logic [2:0] ALUctrl,
     
     output logic [DATA_WIDTH-1:0] ALUout,
-    output logic EQ
+    output logic Zero
 
 );
     logic [DATA_WIDTH-1:0] ALUop2;
@@ -22,7 +22,7 @@ module ALU #(
        
            3'b001:  ALUout = 32'b0;
 
-           3'b010:  ALUout = 32'b0;
+           3'b010:  ALUout = 32'b0; 
            
            3'b011:  ALUout = 32'b0;
 
@@ -35,7 +35,7 @@ module ALU #(
         
          endcase
      end
-     assign EQ =  ALUop1 != ALUop2 ? 1:0;
+     assign Zero =  !(ALUout == 0); //Zero = 1, when alu operation output = 0
     
 
 endmodule

@@ -35,7 +35,7 @@ module ALU #(
         
          endcase
      end
-     assign Zero =  !(ALUout == 0); //Zero = 1, when alu operation output = 0
+     assign Zero = !(ALUout == 0); //Zero = 1, when alu operation output = 0
     
 
 endmodule

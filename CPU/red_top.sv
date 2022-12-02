@@ -23,12 +23,9 @@ module red_top #(
 
 );
   
-   logic [DATA_WIDTH-1:0] ALUop2;
-   logic  [DATA_WIDTH-1:0] ALUop1;
+   logic [DATA_WIDTH-1:0] ALUop1;
    logic [DATA_WIDTH-1:0] regOp2;
    logic [DATA_WIDTH-1:0] ALUout;
-   logic [DATA_WIDTH-1:0] RD1;
-   logic [DATA_WIDTH-1:0] RD2;
 
    logic [DATA_WIDTH-1:0] result;
    logic [DATA_WIDTH-1:0] readata;
@@ -59,8 +56,7 @@ ram ram (
 //assign ALUop2 = ALUsrc ? ImmOp:regOp2;
 
 ALU ALU (
-   .ALUop1 (RD1),
-  // .ALUop2 (ALUop2),
+   .ALUop1 (ALUop1),
    .ALUsrc (ALUsrc),
    .ImmOp (ImmOp),
    .regOp2 (regOp2),
@@ -74,7 +70,7 @@ datamem datamem (
   .clk (clk),
   .A (ALUout),
   .WE (MemWrite),
-  .WD (RD2)
+  .WD (regOp2)
 );
 
 assign result = ResultSrc ? readata : ALUout;

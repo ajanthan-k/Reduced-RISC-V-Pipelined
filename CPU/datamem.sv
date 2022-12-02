@@ -7,7 +7,7 @@ module datamem #(
     input logic [ADDRESS_WIDTH-1:0] WD,
     input logic WE,
 
-    output logic [DATA_WIDTH-1:0] RD,
+    output logic [DATA_WIDTH-1:0] RD
 
 );
 

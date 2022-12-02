@@ -93,9 +93,16 @@ always_comb
                 ALUOp = 2'b00;
                 PCSrc = 1'b1; // unconditional jump
             end
+        default: begin
+            RegWrite = 1'b0;
+            ImmSrc = 2'b00;
+            ALUSrc = 1'b0;
+            MemWrite = 1'b0;
+            ResultSrc = 1'b0;
+            Branch = 1'b0;
+            ALUOp = 2'b0;
+            PCSrc = 1'b0;
+        end
     endcase
-
-// assign {RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp} = flags;
-// assign PCSrc = Zero & Branch; //should be PCSrc = Zero and Branch
 
 endmodule

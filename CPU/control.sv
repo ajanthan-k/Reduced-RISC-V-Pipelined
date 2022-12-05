@@ -18,7 +18,6 @@ logic [1:0] ALUOp;
 decodemain dmain(
     .opcode(Instr[6:0]),
     .Zero(Zero),
-
     .PCSrc(PCSrc), 
     .ResultSrc(ResultSrc),
     .MemWrite(MemWrite),

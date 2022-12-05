@@ -31,7 +31,7 @@ always_comb
                 ResultSrc = 1'b0;
                 Branch = 1'b0;
                 ALUOp = 2'b10;
-                PCSrc = Zero & Branch;
+                PCSrc = 1'b0;
             end
         7'b0000011: begin // I type, op 3
                 RegWrite = 1'b1;
@@ -41,7 +41,7 @@ always_comb
                 ResultSrc = 1'b1;
                 Branch = 1'b0;
                 ALUOp = 2'b00;
-                PCSrc = Zero & Branch;
+                PCSrc = 1'b0;
             end
         7'b0010011: begin // I type, op 19
                 RegWrite = 1'b1;
@@ -51,7 +51,7 @@ always_comb
                 ResultSrc = 1'b0;
                 Branch = 1'b0;
                 ALUOp = 2'b00;
-                PCSrc = Zero & Branch;
+                PCSrc = 1'b0;
             end
         7'b0100011: begin // S type
                 RegWrite = 1'b0;
@@ -61,7 +61,7 @@ always_comb
                 ResultSrc = 1'b0;
                 Branch = 1'b0;
                 ALUOp = 2'b00;
-                PCSrc = Zero & Branch;
+                PCSrc = 1'b0;
             end
         7'b1100011: begin // B type
                 RegWrite = 1'b0;
@@ -71,7 +71,7 @@ always_comb
                 ResultSrc = 1'b0;
                 Branch = 1'b1;
                 ALUOp = 2'b01;
-                PCSrc = Zero & Branch;
+                PCSrc = (Zero & Branch) ? 1'b1 : 1'b0;
             end
         7'b1101111: begin // JAL
                 RegWrite = 1'b1;

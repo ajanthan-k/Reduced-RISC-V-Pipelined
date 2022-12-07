@@ -14,22 +14,20 @@ module ALU #(
     always_comb begin
     
         casez (ALUctrl)
-           3'b000:  ALUout = ALUop1 + ALUop2;
-           
-       
-           3'b001:  ALUout = ALUop1 - ALUop2;
-                    
-           3'b010:  ALUout = 32'b0; 
-           
-           3'b011:  ALUout = 32'b0;
-
-           3'b100:  ALUout = 32'b0;
-           3'b110:  ALUout = 32'b0;
-           3'b101:  ALUout = 32'b0;
+            3'b000:  ALUout = ALUop1 + ALUop2;      //add
+            3'b001:  ALUout = ALUop1 - ALUop2;      //subtract
+            3'b010:  ALUout = ALUop1 & ALUop2;      //bitwise and
+            3'b011:  ALUout = ALUop1 | ALUop2;      //bitwise or
+            3'b100:  ALUout = ALUop1 << ALUop2;     //logical shift left by ALUop2
+            3'b110:  ALUout = ALUop1 >> ALUop2;     //logical right shift by ALUop2
+            3'b101:  ALUout = ALUop1 ^ ALUop2;      //bitwise xor
+            
+            // 3'b101:  ALUout = $signed(ALUop1) < $signed (ALUop2)  ? 1:0 ;    slt
 
            default: ALUout = 0;
     
-         endcase
+        endcase
+    
      end
      
      assign Zero = (ALUop1 - ALUop2 == 0) ? 1'b1 : 1'b0;

@@ -18,11 +18,11 @@ module ALU #(
             3'b001:  ALUout = ALUop1 - ALUop2;      //subtract
             3'b010:  ALUout = ALUop1 & ALUop2;      //bitwise and
             3'b011:  ALUout = ALUop1 | ALUop2;      //bitwise or
-            3'b100:  ALUout = ALUop1 << ALUop2;     //logical shift left by ALUop2
-            3'b110:  ALUout = ALUop1 >> ALUop2;     //logical right shift by ALUop2
-            3'b101:  ALUout = ALUop1 ^ ALUop2;      //bitwise xor
+            3'b100:  ALUout = ALUop1 ^ ALUop2;      //bitwise xor
+            3'b110:  ALUout = ALUop1 << ALUop2;     //logical shift left by ALUop2
+            3'b111:  ALUout = ALUop1 >> ALUop2;     //logical right shift by ALUop2
             
-            // 3'b101:  ALUout = $signed(ALUop1) < $signed (ALUop2)  ? 1:0 ;    slt
+            // 3'b101:  slt, which is not used
 
            default: ALUout = 0;
     

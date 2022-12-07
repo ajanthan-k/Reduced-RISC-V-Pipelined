@@ -36,7 +36,7 @@ always_comb begin
                 ALUOp = 2'b10;
                 Branch = 1'b0;
             end
-        7'b0000011: begin // I type, op 3
+        7'b0000011: begin // I type, op 3. lw only
                 RegWrite = 1'b1;
                 ImmSrc = 2'b00;
                 ALUSrc = 1'b1;

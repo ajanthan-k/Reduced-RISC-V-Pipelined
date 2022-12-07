@@ -14,15 +14,18 @@ always_comb
         //7'b00?????: ALUControl = 000; //handled by default
         //R type
         7'b1000011: ALUControl = 3'b001;   //subtract
-        7'b10010??: ALUControl = 3'b101;   //set less than
+        7'b10010??: ALUControl = 3'b101;   //set less than, not implemented by ALU
         7'b10110??: ALUControl = 3'b011;   //or
         7'b10111??: ALUControl = 3'b010;  //and
-        7'b10001??: ALUControl = 3'b100; //shift left logical
+        7'b10100??: ALUControl = 3'b100; //xor
 
         //B type
         7'b0100???: ALUControl = 3'b001;   //beq, bne
 
         //I and S types, aluop = 00
+        7'b00001??: ALUControl = 3'b110; //slli, fn7 only matters if more load ins (op 3) are needed
+        7'b00101??: ALUControl = 3'b111; //srli, same as above, also if srai is needed
+        7'b00111??: ALUControl = 3'b010;//andi, fn7 and op dont matter, as op 3 load ins do not have fn3=111
 
         //U and J types would be ALUOp = 11, but since we only use jal, this is not used
         default: ALUControl = 3'b000;

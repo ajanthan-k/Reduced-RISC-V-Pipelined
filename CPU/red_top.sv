@@ -13,7 +13,8 @@ module red_top #(
   input logic [ADDRESS_WIDTH-1:0] rs2,
   input logic [ADDRESS_WIDTH-1:0] rd,
   input logic MemWrite,
-  input logic ResultSrc,
+  input logic [1:0] ResultSrc,
+  input logic [DATA_WIDTH-1:0] PCPlus4,
 
   output logic  Zero,
   output logic [DATA_WIDTH-1:0] a0
@@ -28,9 +29,9 @@ module red_top #(
    logic [DATA_WIDTH-1:0] result;
    logic [DATA_WIDTH-1:0] readata;
 
-  assign result = ResultSrc ? readata : ALUout;
   assign ALUop2 = ALUsrc ? ImmOp:regOp2;
-  
+  assign result = ResultSrc[1] ? PCPlus4 : (ResultSrc[0] ? readata : ALUout);
+
 ram ram (
   .clk (clk),
   .AD1 (rs1),

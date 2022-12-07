@@ -5,7 +5,7 @@ module control #(
     input logic [D_WIDTH-1:0] Instr, //will need more than this later , for fn3 and 7
 
     output logic PCSrc, 
-    output logic ResultSrc,
+    output logic [1:0] ResultSrc,
     output logic MemWrite,
     output logic [2:0] ALUControl,
     output logic ALUSrc,

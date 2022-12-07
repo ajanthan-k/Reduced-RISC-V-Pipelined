@@ -11,6 +11,7 @@ module cpu #(
     // logic ImmSrc;
     logic Zero;
     logic [ADDRESS_WIDTH-1:0] PC;
+    logic [ADDRESS_WIDTH-1:0] PCPlus4;
     logic [ADDRESS_WIDTH-1:0] ImmOp;
     logic PCsrc;
     logic RegWrite;
@@ -18,7 +19,7 @@ module cpu #(
     logic ALUsrc;
     logic [1:0] ImmSrc;
     logic [ADDRESS_WIDTH-1:0] instr;
-    logic ResultSrc;
+    logic [1:0] ResultSrc;
     logic MemWrite;
 
 //blue
@@ -27,7 +28,8 @@ PC_top blue (
   .rst(rst),
   .ImmOp(ImmOp),
   .PCsrc(PCsrc),
-  .PC(PC)
+  .PC(PC),
+  .PCPlus4(PCPlus4)
 );
 
 //green
@@ -67,7 +69,8 @@ red_top red(
   .rd(instr[11:7]),
   .Zero(Zero),
   .ResultSrc(ResultSrc),
-  .a0(a0)
+  .a0(a0),
+  .PCPlus4(PCPlus4)
 );
 
 endmodule

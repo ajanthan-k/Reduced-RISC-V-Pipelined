@@ -72,11 +72,11 @@ The data cache capacity should be no more than 256 bytes.
 
 ### By Week 1 (Thu 8 Dec)
 
-- [ ] Program Counter and related adders. (Blue) Contibutors: Erenkai
+- [x] Program Counter and related adders. (Blue) Contibutors: Erenkai
 
 - [ ] The Register File, ALU and the related MUX. (Red) Contributors: Jim, Erenkai(co)
 
-- [ ] The Control Unit, the Sign-extension Unit and the instruction memory. (Green) Contributors: Clifford, Ajanthaan
+- [x] The Control Unit, the Sign-extension Unit and the instruction memory. (Green) Contributors: Clifford, Ajanthaan
 
 - [ ] The testbench and verification of Blue working via gtkWave and Vbuddy (where appropriate) Contributors: Erenkai
 

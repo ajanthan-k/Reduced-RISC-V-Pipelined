@@ -1,8 +1,8 @@
 module control #(
-    parameter A_WIDTH = 32
+    parameter D_WIDTH = 32
 )(
     input logic Zero, //what does this do?
-    input logic [A_WIDTH-1:0] Instr, //will need more than this later , for fn3 and 7
+    input logic [D_WIDTH-1:0] Instr, //will need more than this later , for fn3 and 7
 
     output logic PCSrc, 
     output logic ResultSrc,
@@ -16,7 +16,8 @@ module control #(
 logic [1:0] ALUOp; 
 
 decodemain dmain(
-    .opcode(Instr[6:0]),
+    //.opcode(Instr[6:0]),
+    .Instr(Instr),
     .Zero(Zero),
     .PCSrc(PCSrc), 
     .ResultSrc(ResultSrc),

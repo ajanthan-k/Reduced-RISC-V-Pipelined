@@ -20,8 +20,7 @@ always_comb
         7'b10001??: ALUControl = 3'b100; //shift left logical
 
         //B type
-        7'b01000??: ALUControl = 3'b001;   //beq
-        7'b01001??: ALUControl = 3'b000; //bne
+        7'b0100???: ALUControl = 3'b001;   //beq, bne
 
         //I and S types, aluop = 00
 

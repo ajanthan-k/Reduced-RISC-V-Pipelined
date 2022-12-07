@@ -1,6 +1,8 @@
-module decodemain (
+module decodemain #(
+        parameter D_WIDTH = 32
+    )(
     input logic Zero, //AND with Branch
-    input logic [6:0] opcode, //last 7 bits of instr go here
+    input logic [D_WIDTH - 1:0] Instr, //last 7 bits of instr go here
 
     output logic PCSrc, 
     output logic ResultSrc,
@@ -11,8 +13,9 @@ module decodemain (
     output logic [1:0] ALUOp              
 );
 
-//logic [8:0] flags;
-logic Branch;
+logic [6:0] opcode = Instr[6:0];
+logic [2:0] fn3 = Instr[14:12];
+logic [6:0] fn7 = Instr[31:25];
 
 always_comb 
     casez(opcode) //use begin-end for default and the opcode stuff
@@ -29,7 +32,6 @@ always_comb
                 ALUSrc = 1'b0;
                 MemWrite = 1'b0;
                 ResultSrc = 1'b0;
-                Branch = 1'b0;
                 ALUOp = 2'b10;
                 PCSrc = 1'b0;
             end
@@ -39,7 +41,6 @@ always_comb
                 ALUSrc = 1'b1;
                 MemWrite = 1'b0;
                 ResultSrc = 1'b1;
-                Branch = 1'b0;
                 ALUOp = 2'b00;
                 PCSrc = 1'b0;
             end
@@ -49,7 +50,6 @@ always_comb
                 ALUSrc = 1'b1;
                 MemWrite = 1'b0;
                 ResultSrc = 1'b0;
-                Branch = 1'b0;
                 ALUOp = 2'b00;
                 PCSrc = 1'b0;
             end
@@ -59,7 +59,6 @@ always_comb
                 ALUSrc = 1'b1;
                 MemWrite = 1'b1;
                 ResultSrc = 1'b0;
-                Branch = 1'b0;
                 ALUOp = 2'b00;
                 PCSrc = 1'b0;
             end
@@ -69,9 +68,9 @@ always_comb
                 ALUSrc = 1'b0;
                 MemWrite = 1'b0;
                 ResultSrc = 1'b0;
-                Branch = 1'b1;
                 ALUOp = 2'b01;
-                PCSrc = (Zero & Branch) ? 1'b1 : 1'b0;
+                PCSrc = (fn3 == 3'b001) ? ~Zero : Zero; //To invert Zero for bne
+                //PCSrc = (Zero & Branch) ? 1'b1 : 1'b0;
             end
         7'b1101111: begin // JAL
                 RegWrite = 1'b1;
@@ -89,7 +88,6 @@ always_comb
                 ALUSrc = 1'b1;
                 MemWrite = 1'b0;
                 ResultSrc = 1'b0;
-                Branch = 1'b1;
                 ALUOp = 2'b00;
                 PCSrc = 1'b1; // unconditional jump
             end
@@ -99,7 +97,6 @@ always_comb
             ALUSrc = 1'b0;
             MemWrite = 1'b0;
             ResultSrc = 1'b0;
-            Branch = 1'b0;
             ALUOp = 2'b0;
             PCSrc = 1'b0;
         end

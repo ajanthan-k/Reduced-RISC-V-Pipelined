@@ -4,9 +4,6 @@ module red_top #(
               DATA_WIDTH = 32
 )(
   input logic clk,
-  // input logic [19:15] AD1,    
-  // input logic [24:20] AD2,
-  // input logic [11:7] AD3,
 
   input logic [DATA_WIDTH-1:0] ImmOp,
   input logic RegWrite,
@@ -23,15 +20,16 @@ module red_top #(
 
 );
   
-   logic [DATA_WIDTH-1:0] ALUop1;
+   logic [DATA_WIDTH-1:0] SrcA;
    logic [DATA_WIDTH-1:0] regOp2;
+   logic [DATA_WIDTH-1:0] ALUop2;
    logic [DATA_WIDTH-1:0] ALUout;
 
    logic [DATA_WIDTH-1:0] result;
    logic [DATA_WIDTH-1:0] readata;
 
-  //  logic [DATA_WIDTH-1:0] RD2;
-  //  logic [ADDRESS_WIDTH-1:0] AD2;
+  assign result = ResultSrc ? readata : ALUout;
+  assign ALUop2 = ALUsrc ? ImmOp:regOp2;
   
 ram ram (
   .clk (clk),
@@ -41,25 +39,13 @@ ram ram (
   .WE3 (RegWrite),
   .WD3 (result),
   .a0 (a0),
-  .RD1 (ALUop1),
+  .RD1 (SrcA),
   .RD2 (regOp2)
-  
 );
 
-// mux2 mux (
-//   .ALUsrc (ALUsrc),
-//   .ImmOp (ImmOp),
-//   .regOp2 (regOp2),
-//   .ALUop2 (ALUop2)
-//   //.regOp2 (RD2)
-// );
-//assign ALUop2 = ALUsrc ? ImmOp:regOp2;
-
 ALU ALU (
-   .ALUop1 (ALUop1),
-   .ALUsrc (ALUsrc),
-   .ImmOp (ImmOp),
-   .regOp2 (regOp2),
+   .ALUop1 (SrcA),
+   .ALUop2 (ALUop2),
    .ALUctrl (ALUctrl),
    .ALUout (ALUout),
    .Zero (Zero)
@@ -72,7 +58,5 @@ datamem datamem (
   .WE (MemWrite),
   .WD (regOp2)
 );
-
-assign result = ResultSrc ? readata : ALUout;
 
 endmodule

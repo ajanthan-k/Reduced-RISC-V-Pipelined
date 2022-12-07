@@ -78,7 +78,6 @@ always_comb
                 ALUSrc = 1'b1;
                 MemWrite = 1'b0;
                 ResultSrc = 1'b0;
-                Branch = 1'b1;
                 ALUOp = 2'b00;
                 PCSrc = 1'b1; // unconditional jump
             end

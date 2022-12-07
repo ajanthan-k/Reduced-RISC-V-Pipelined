@@ -1,36 +1,20 @@
 module instrmem #(
-    parameter ADDRESS_WIDTH = 32, 
-              DATA_WIDTH = 32
+    parameter D_WIDTH = 8, // For byte addressing
+              A_WIDTH = 12, //Due to memory map, instr mem has 000 to FFF, so 12 bits
+              EXT_WIDTH = 32 //Signals from PC and the output are both 32 bits
 ) (
     //input logic clk,
-    input logic [ADDRESS_WIDTH-1:0] A,
-    output logic [DATA_WIDTH-1:0] RD
+    input logic [EXT_WIDTH-1:0] A,
+    output logic [EXT_WIDTH-1:0] RD //output is 32 bits
 );
 
-//The dumb method. it also works (probably. maybe?)
-always_comb 
-    case(A)
-        32'h00000000: RD = 32'h0FF00313;
-        32'h00000004: RD = 32'h00000513;
-        32'h00000008: RD = 32'h00000593;
-        32'h0000000c: RD = 32'h00058513;
-        32'h00000010: RD = 32'h00158593;
-        32'h00000014: RD = 32'hFE659CE3;
-        32'h00000018: RD = 32'hFE0318E3;
-        default: RD = 32'h00000000;
-    endcase
-
-/*
-logic [DATA_WIDTH-1:0] rom_array [2**ADDRESS_WIDTH-1:0]; //this v big
+logic [A_WIDTH-1:0] Addr = A[A_WIDTH-1:0];
+logic [D_WIDTH-1:0] rom_array [2**A_WIDTH-1:0]; //each data stored is 8bits, and the rom size is 2^12 bits
 
 initial begin
-    $display("loading instr."); //remove
-    $readmemh("instr.mem", rom_array);
+    $readmemh("counter.s.hex", rom_array); //read from this hex file
 end
 
-always_ff @(posedge A, negedge A) // needs to be async, so the value changes immediately. HOW??
-RD <= rom_array [A];
-*/
-
+assign RD = {rom_array [Addr + 3], rom_array [Addr + 2], rom_array [Addr + 1], rom_array [Addr]};
 
 endmodule

@@ -16,8 +16,9 @@ module decodemain #(
 logic [6:0] opcode = Instr[6:0];
 logic [2:0] fn3 = Instr[14:12];
 logic [6:0] fn7 = Instr[31:25];
+logic Branch;
 
-always_comb 
+always_comb begin
     casez(opcode) //use begin-end for default and the opcode stuff
         // 7'b0110011: flags = 9'b1_00_0000_10; //op 51, R type
         // 7'b0000011: flags = 9'b100101000; //op 3,  (I)
@@ -33,7 +34,7 @@ always_comb
                 MemWrite = 1'b0;
                 ResultSrc = 1'b0;
                 ALUOp = 2'b10;
-                PCSrc = 1'b0;
+                Branch = 1'b0;
             end
         7'b0000011: begin // I type, op 3
                 RegWrite = 1'b1;
@@ -42,7 +43,7 @@ always_comb
                 MemWrite = 1'b0;
                 ResultSrc = 1'b1;
                 ALUOp = 2'b00;
-                PCSrc = 1'b0;
+                Branch = 1'b0;
             end
         7'b0010011: begin // I type, op 19
                 RegWrite = 1'b1;
@@ -51,7 +52,7 @@ always_comb
                 MemWrite = 1'b0;
                 ResultSrc = 1'b0;
                 ALUOp = 2'b00;
-                PCSrc = 1'b0;
+                Branch = 1'b0;
             end
         7'b0100011: begin // S type
                 RegWrite = 1'b0;
@@ -60,7 +61,7 @@ always_comb
                 MemWrite = 1'b1;
                 ResultSrc = 1'b0;
                 ALUOp = 2'b00;
-                PCSrc = 1'b0;
+                Branch = 1'b0;
             end
         7'b1100011: begin // B type
                 RegWrite = 1'b0;
@@ -69,8 +70,7 @@ always_comb
                 MemWrite = 1'b0;
                 ResultSrc = 1'b0;
                 ALUOp = 2'b01;
-                PCSrc = (fn3 == 3'b001) ? ~Zero : Zero; //To invert Zero for bne
-                //PCSrc = (Zero & Branch) ? 1'b1 : 1'b0;
+                Branch = (fn3 == 3'b001) ? !Zero : Zero; //to invert Zero for bne/beq
             end
         7'b1101111: begin // JAL
                 RegWrite = 1'b1;
@@ -79,7 +79,7 @@ always_comb
                 MemWrite = 1'b0;
                 ResultSrc = 1'b0;
                 ALUOp = 2'b00;
-                PCSrc = 1'b1; // unconditional jump
+                Branch = 1'b1; // unconditional jump
             end
         7'b1100111: begin // JALR
                 RegWrite = 1'b1;
@@ -88,7 +88,7 @@ always_comb
                 MemWrite = 1'b0;
                 ResultSrc = 1'b0;
                 ALUOp = 2'b00;
-                PCSrc = 1'b1; // unconditional jump
+                Branch = 1'b1; // unconditional jump
             end
         default: begin
             RegWrite = 1'b0;
@@ -97,8 +97,12 @@ always_comb
             MemWrite = 1'b0;
             ResultSrc = 1'b0;
             ALUOp = 2'b0;
-            PCSrc = 1'b0;
+            Branch = 1'b0;
         end
     endcase
+
+    assign PCSrc = Branch ? 1'b1 : 1'b0;        //PCSrc cannot be assigned in case - has to assigned sequentially after control signals assigned to use zero correctly
+
+end
 
 endmodule

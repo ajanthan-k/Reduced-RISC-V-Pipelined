@@ -31,6 +31,7 @@ module ram #(
 
     always_ff @ (posedge clk) begin
         if (WE3)  ram_array[AD3] <= WD3;
+        ram_array[0] <= 1'b0;
     end
 
     assign a0 = ram_array[10];

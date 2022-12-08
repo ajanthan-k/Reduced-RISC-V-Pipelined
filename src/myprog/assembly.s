@@ -1,7 +1,7 @@
-main_loop:
+main:
 li a4, 1            # this is the starting random number used in lfsr
 li a2, 28           # it count 28 cycles to tick 1 sec
-li t1, 8 
+li t1, 7 
 li a3, 0            # increment 1 after each cycle, maximum 8 # number of lights on
 li a0, 1            # a0 is output, begin as it starting light up #灯泡
 
@@ -33,7 +33,7 @@ jal delay    # reg contains return address
 addi a3, a3, 1
 bne  a3, a4, off_delay_loop     # count a4 delay loops then go next step to close all lights back to jal
 li a0, 0            # give output a0 the value zero so close all light      # 关灯
-j main_loop         # 回到 一开始循环
+j main       # 回到 一开始循环
 
 
 delay:       # the counter loop that counts one second the subroutine using JAL

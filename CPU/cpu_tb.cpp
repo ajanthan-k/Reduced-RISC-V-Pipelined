@@ -1,6 +1,7 @@
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 #include "Vcpu.h"
+#include "vbuddy.cpp"
 
 int main(int argc, char **argv, char **env) {
     int i;
@@ -26,6 +27,8 @@ int main(int argc, char **argv, char **env) {
             top->eval ();
         }
         
+        vbdBar(top->a0);
+
         if (Verilated::gotFinish()) exit(0);
     }
     tfp->close();

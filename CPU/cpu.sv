@@ -12,6 +12,7 @@ module cpu #(
     logic Zero;
     logic [ADDRESS_WIDTH-1:0] PC;
     logic [ADDRESS_WIDTH-1:0] PCPlus4;
+    logic [ADDRESS_WIDTH-1:0] PCTarget;
     logic [ADDRESS_WIDTH-1:0] ImmOp;
     logic PCsrc;
     logic RegWrite;
@@ -21,12 +22,13 @@ module cpu #(
     logic [ADDRESS_WIDTH-1:0] instr;
     logic [1:0] ResultSrc;
     logic MemWrite;
+    logic JALRctrl;
 
 //blue
 PC_top blue (
   .clk(clk),
   .rst(rst),
-  .ImmOp(ImmOp),
+  .PCTarget(PCTarget),
   .PCsrc(PCsrc),
   .PC(PC),
   .PCPlus4(PCPlus4)
@@ -47,7 +49,8 @@ control ctrl (
     .ALUControl(ALUctrl),
     .ALUSrc(ALUsrc),
     .ImmSrc(ImmSrc),
-    .RegWrite(RegWrite)
+    .RegWrite(RegWrite),
+    .JALRctrl(JALRctrl)
 );
 
 extend sign_ext (
@@ -70,7 +73,10 @@ red_top red(
   .Zero(Zero),
   .ResultSrc(ResultSrc),
   .a0(a0),
-  .PCPlus4(PCPlus4)
+  .PCPlus4(PCPlus4),
+  .PC(PC),
+  .PCTarget(PCTarget),
+  .JALRctrl(JALRctrl)
 );
 
 endmodule

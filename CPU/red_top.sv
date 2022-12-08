@@ -15,10 +15,12 @@ module red_top #(
   input logic MemWrite,
   input logic [1:0] ResultSrc,
   input logic [DATA_WIDTH-1:0] PCPlus4,
+  input logic [DATA_WIDTH-1:0] PC,
+  input logic  JALRctrl,
 
   output logic  Zero,
-  output logic [DATA_WIDTH-1:0] a0
-
+  output logic [DATA_WIDTH-1:0] a0,
+  output logic [DATA_WIDTH-1:0] PCTarget
 );
   
    logic [DATA_WIDTH-1:0] SrcA;
@@ -31,6 +33,7 @@ module red_top #(
 
   assign ALUop2 = ALUsrc ? ImmOp:regOp2;
   assign result = ResultSrc[1] ? PCPlus4 : (ResultSrc[0] ? readata : ALUout);
+  assign PCTarget = JALRctrl ? ALUout : PC + ImmOp;
 
 ram ram (
   .clk (clk),

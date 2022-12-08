@@ -12,7 +12,7 @@ logic [A_WIDTH-1:0] Addr = A[A_WIDTH-1:0];
 logic [D_WIDTH-1:0] rom_array [2**A_WIDTH-1:0]; //each data stored is 8bits, and the rom size is 2^12 bits
 
 initial begin
-    $readmemh("counter.s.hex", rom_array); //read from this hex file
+    $readmemh("assembly.s.hex", rom_array); //read from this hex file
 end
 
 assign RD = {rom_array [Addr + 3], rom_array [Addr + 2], rom_array [Addr + 1], rom_array [Addr]};

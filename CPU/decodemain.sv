@@ -10,7 +10,8 @@ module decodemain #(
     output logic ALUSrc,
     output logic [1:0] ImmSrc,  
     output logic RegWrite,
-    output logic [1:0] ALUOp              
+    output logic [1:0] ALUOp,
+    output logic JALRctrl              
 );
 
 logic [6:0] opcode = Instr[6:0];
@@ -19,6 +20,9 @@ logic [6:0] fn7 = Instr[31:25];
 logic Branch;
 
 always_comb begin
+    
+    JALRctrl = 1'b0;
+    PCSrc = 1'b0;
     casez(opcode) 
         7'b0110011: begin //R type
                 RegWrite = 1'b1;
@@ -82,6 +86,7 @@ always_comb begin
                 ResultSrc = 2'b10;
                 ALUOp = 2'b00;
                 Branch = 1'b1; // unconditional jump
+                JALRctrl = 1'b1;
             end
         default: begin
             RegWrite = 1'b0;
@@ -91,6 +96,7 @@ always_comb begin
             ResultSrc = 2'b00;
             ALUOp = 2'b0;
             Branch = 1'b0;
+            JALRctrl = 1'b0;
         end
     endcase
 

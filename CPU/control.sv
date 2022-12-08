@@ -10,7 +10,8 @@ module control #(
     output logic [2:0] ALUControl,
     output logic ALUSrc,
     output logic [1:0] ImmSrc,  
-    output logic RegWrite                
+    output logic RegWrite,
+    output logic JALRctrl                
 );
 
 logic [1:0] ALUOp; 
@@ -25,7 +26,8 @@ decodemain dmain(
     .ALUSrc(ALUSrc),
     .ImmSrc(ImmSrc),  
     .RegWrite(RegWrite),
-    .ALUOp(ALUOp)
+    .ALUOp(ALUOp),
+    .JALRctrl(JALRctrl)
 );
 
 decodealu dalu(

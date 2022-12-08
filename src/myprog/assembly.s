@@ -1,6 +1,6 @@
+li a4, 5            # this is the starting random number used in lfsr
 main:
-li a4, 1            # this is the starting random number used in lfsr
-li a2, 28           # it count 28 cycles to tick 1 sec
+li a2, 50           # it count 50 cycles to tick 1 sec
 li t1, 7 
 li a3, 0            # increment 1 after each cycle, maximum 8 # number of lights on
 li a0, 1            # a0 is output, begin as it starting light up #灯泡

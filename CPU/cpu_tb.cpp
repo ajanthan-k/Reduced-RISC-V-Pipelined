@@ -16,9 +16,13 @@ int main(int argc, char **argv, char **env) {
     top->trace(tfp,99);
     tfp->open ("cpu.vcd");
 
-    top->clk = 1;
+    //if (vbdOpen()!=1) return(-1);
+    //vbdHeader("CPU: F1");
 
-    for (i = 0; i < 2000; i++){
+    top->clk = 1;
+    top->rst = 1;
+
+    for (i = 0; i < 30000; i++){
 
         //dump var into VCD file and toggle clk
         for(clk = 0; clk < 2; clk++){
@@ -26,8 +30,9 @@ int main(int argc, char **argv, char **env) {
             top->clk = !top->clk;
             top->eval ();
         }
-        
-        vbdBar(top->a0);
+
+        top->rst = (i < 1 );
+        //vbdBar(top->a0);
 
         if (Verilated::gotFinish()) exit(0);
     }

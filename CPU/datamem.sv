@@ -17,11 +17,9 @@ module datamem #(
         RD = ram_array[A];
     end
 
-    initial begin
-        for (int i = 0; i< $size(ram_array); i++) begin
-            ram_array[i] = 32'b0;
-        end
-    end
+    // initial begin
+    //      $readmemh("data.hex", ram_array); //read from this hex file
+    // end
 
     always_ff @ (posedge clk) begin
         if (WE)  ram_array[A] <= WD;

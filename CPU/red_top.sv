@@ -35,7 +35,7 @@ module red_top #(
   assign result = ResultSrc[1] ? PCPlus4 : (ResultSrc[0] ? readata : ALUout);
   assign PCTarget = JALRctrl ? ALUout : PC + ImmOp;
 
-ram ram (
+register register (
   .clk (clk),
   .AD1 (rs1),
   .AD2 (rs2),

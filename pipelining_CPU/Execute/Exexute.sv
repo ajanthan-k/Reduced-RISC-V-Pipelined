@@ -23,14 +23,12 @@ module Execute #(
 
   logic [WIDTH-1:0] RdE;
   logic [WIDTH-1:0] PCPlus4E;
+  logic [WIDTH-1:0] ALUout;
   logic [WIDTH-1:0] SrcBE;
   logic [WIDTH-1:0] SrcAE;
 
 
-
-
   assign WriteDataE = RD2E;
-  
   assign SrcBE = ALUsrcE ? ImmExtE:RD2E;
   assign PCTargetE = JALRctrl ? ALUout :  PCE + ImmExtE;
   

@@ -39,21 +39,21 @@ module Decode_reg #(
 
 always_ff @(posedge clk) begin
     //control signals
-    RegWriteD = RegWriteE; 
-    ResultSrcD = ResultSrcE;
-    MemWriteD = MemWriteE;
-    JumpD = JumpE;
-    BranchD = BranchE;
-    ALUControlD = ALUControlE;
-    ALUSrcD = ALUSrcE;
-    JALRctrlD = JALRctrlE;
+    RegWriteD <= RegWriteE; 
+    ResultSrcD <= ResultSrcE;
+    MemWriteD <= MemWriteE;
+    JumpD <= JumpE;
+    BranchD <= BranchE;
+    ALUControlD <= ALUControlE;
+    ALUSrcD <= ALUSrcE;
+    JALRctrlD <= JALRctrlE;
     //others
-    RD1 = RD1E;
-    RD2 = RD2E;
-    PCD = PCE;
-    RdD = RdE; 
-    ImmExtD = ImmExtE;
-    PCPlus4D = PCPlus4E;
+    RD1 <= RD1E;
+    RD2 <= RD2E;
+    PCD <= PCE;
+    RdD <= RdE; 
+    ImmExtD <= ImmExtE;
+    PCPlus4D <= PCPlus4E;
 
 end
     

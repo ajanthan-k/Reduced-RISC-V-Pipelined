@@ -12,8 +12,8 @@ module Decode_reg #(
     input logic ALUSrcD,
     input logic JALRctrlD,  
     //others
-    input logic [WIDTH-1:0] RD1,
-    input logic [WIDTH-1:0] RD2,
+    input logic [WIDTH-1:0] RD1D,
+    input logic [WIDTH-1:0] RD2D,
     input logic [WIDTH-1:0] PCD,
     input logic [5-1:0] RdD, 
     input logic [WIDTH-1:0] ImmExtD,
@@ -48,8 +48,8 @@ always_ff @(posedge clk) begin
     ALUSrcD <= ALUSrcE;
     JALRctrlD <= JALRctrlE;
     //others
-    RD1 <= RD1E;
-    RD2 <= RD2E;
+    RD1D <= RD1E;
+    RD2D <= RD2E;
     PCD <= PCE;
     RdD <= RdE; 
     ImmExtD <= ImmExtE;

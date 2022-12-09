@@ -11,15 +11,15 @@ module datamem #(
 
 );
 
-    logic [DATA_WIDTH-1:0] ram_array [2**ADDRESS_WIDTH-1:0];
+    logic [DATA_WIDTH-1:0] ram_array [2**12-1:0];
 
     always_comb begin
         RD = ram_array[A];
     end
 
-    // initial begin
-    //      $readmemh("data.hex", ram_array); //read from this hex file
-    // end
+    initial begin
+        $readmemh("data.hex", ram_array); //read from this hex file
+    end
 
     always_ff @ (posedge clk) begin
         if (WE)  ram_array[A] <= WD;

@@ -16,8 +16,8 @@ int main(int argc, char **argv, char **env) {
     top->trace(tfp,99);
     tfp->open ("cpu.vcd");
 
-    //if (vbdOpen()!=1) return(-1);
-    //vbdHeader("CPU: F1");
+    // if (vbdOpen()!=1) return(-1);
+    // vbdHeader("CPU: F1");
 
     top->clk = 1;
     top->rst = 1;

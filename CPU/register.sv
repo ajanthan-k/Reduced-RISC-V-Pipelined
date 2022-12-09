@@ -30,8 +30,7 @@ module register #(
     end
 
     always_ff @ (posedge clk) begin
-        if (WE3)  ram_array[AD3] <= WD3;
-        ram_array[0] <= 32'b0;
+        if ((WE3) && (AD3 != 0))  ram_array[AD3] <= WD3;
     end
 
     assign a0 = ram_array[10];

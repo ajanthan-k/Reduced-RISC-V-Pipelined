@@ -1,34 +1,36 @@
-module Memory_reg #(
-    parameter WIDTH
+module Execute_reg #(
+    parameter WIDTH = 32
 ) (
     input logic clk,
     //control unit signals
-    input logic RegWriteM,
-    input logic [1:0] ResultSrcM,
+    input logic RegWriteD,
+    input logic [1:0] ResultSrcD,
+    input logic MemWriteD,
 
-    input logic [WIDTH-1:0] ALUResultM,
-    input logic [WIDTH-1:0] ReadDataM,
-    input logic [4:0] RdM,
-    input logic [WIDTH-1:0] PCPlus4M,
+    input logic [WIDTH-1:0] ALUResultE,
+    input logic [WIDTH-1:0] WriteDataE,
+    input logic [4:0] RdE,
+    input logic [WIDTH-1:0] PCPlus4E,
 
-    output logic RegWriteW,
-    output logic [1:0] ResultSrcW,
+    output logic RegWriteM,
+    output logic [1:0] ResultSrcM,
+    output logic MemWriteM,
 
-    output logic [WIDTH-1:0] ALUResultW,
-    output logic [WIDTH-1:0] ReadDataW,
-    output logic [4:0] RdW,
-    output logic [WIDTH-1:0] PCPlus4W
+    output logic [WIDTH-1:0] ALUResultM,
+    output logic [WIDTH-1:0] WriteDataM,
+    output logic [4:0] RdM,
+    output logic [WIDTH-1:0] PCPlus4M
 );
 
 always_ff @(posedge clk) begin
     //control signals
-    RegWriteM <= RegWriteW; 
-    ResultSrcM <= ResultSrcW;
+    RegWriteE <= RegWriteM; 
+    ResultSrcE <= ResultSrcM;
+    MemWriteE <= MemWriteEM;
     //others
-    ALUResultM <= ALUResultW;
-    WriteDataM <= WriteDataW;
-    RdM <= RdW;
-    PCPlus4M <= PCPlus4W;
+    ALUResultE <= ALUResultM;
+    WriteDataE <= WriteDataM;
+    PCPlus4E <= PCPlus4M;
 end
-    
+
 endmodule

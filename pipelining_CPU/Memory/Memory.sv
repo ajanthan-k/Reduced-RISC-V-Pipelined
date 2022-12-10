@@ -16,7 +16,24 @@ module Memory #(
   
   logic [WIDTH-1:0] RdM;
   logic [WIDTH-1:0] PCPlus4M;
+
+
+Memory_reg Memory_reg(
   
+  
+  //control
+  .RegWriteE (RegWriteE),
+  .RegWriteM (RegWriteM),
+
+  .ResultSrcE
+  .ResultSrcM
+
+  .MemWriteE
+  .MemWriteM
+
+);
+
+
 datamem datamem (
    .clk (clk),
    .A (ALUresultM) ,  

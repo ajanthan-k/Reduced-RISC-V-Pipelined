@@ -1,13 +1,15 @@
 module Decode_top #(
     parameter WIDTH = 32
 ) (
+    input logic [WIDTH-1:0] InstrF,
+    input logic [WIDTH-1:0] PCF,
+    input logic [WIDTH-1:0] PCPlus4F,
     input clk,
-    input logic [WIDTH-1:0] InstrD,
-    input logic [WIDTH-1:0] PCD,
-    input logic [WIDTH-1:0] PCPlus4D,
     input logic [4:0] RdW, //5 bit from instr a few cycles ago
     input logic [WIDTH-1:0] ResultW,
 
+    output logic [WIDTH-1:0] PCD,
+    output logic [WIDTH-1:0] PCPlus4D,
     //control unit signals
     output logic RegWriteD,
     output logic [1:0] ResultSrcD,
@@ -23,10 +25,16 @@ module Decode_top #(
     //output logic [WIDTH-1:0] PCD, //hm this is between the pipeline reg.s
     output logic [4:0] RdD, //implement as assign????
     output logic [WIDTH-1:0] ImmExtD,
-    //output logic [WIDTH-1:0] PCPlus4D, //this is also between the pipeline reg.s
+    output logic [WIDTH-1:0] PCPlus4D, //this is also between the pipeline reg.s
 );
-
-logic 
+logic [WIDTH-1:0] InstrD,
+logic [2:0] ImmSrcD,
+// fetch_decode_Reg
+always_ff @(posedge clk) begin
+    InstrF <= InstrD;
+    PCF <= PCD;
+    PCPlus4F <= PCPlus4D;
+end
 
 control ctrl (
     .Instr(InstrD),

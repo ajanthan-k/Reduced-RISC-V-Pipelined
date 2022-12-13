@@ -13,81 +13,81 @@ module cpu #(
    logic [WIDTH-1:0] InstrF;
    logic [WIDTH-1:0] PCPlus4F;
    //decode
-    logic [WIDTH-1:0] PCF,
-    logic [WIDTH-1:0] PCPlus4F
-    logic [4:0] RdW,
-    logic [WIDTH-1:0] ResultW,
-    logic RegWriteD,
-    logic [1:0] ResultSrcD,
-    logic MemWriteD,
-    logic JumpD,
-    logic BranchD,
-    logic [2:0] ALUControlD,
-    logic ALUSrcD,
-    logic JALRctrlD,  
+    logic [WIDTH-1:0] PCF;
+    logic [WIDTH-1:0] PCPlus4F;
+    logic [4:0] RdW;
+    logic [WIDTH-1:0] ResultW;
+    logic RegWriteD;
+    logic [1:0] ResultSrcD;
+    logic MemWriteD;
+    logic JumpD;
+    logic BranchD;
+    logic [2:0] ALUControlD;
+    logic ALUSrcD;
+    logic JALRctrlD;
 
-    logic [WIDTH-1:0] RD1D,
-    logic [WIDTH-1:0] RD2D,
-    logic [WIDTH-1:0] PCD, 
-    logic [4:0] RdD, 
-    logic [WIDTH-1:0] ImmExtD,
-    logic [WIDTH-1:0] PCPlus4D, 
+    logic [WIDTH-1:0] RD1D;
+    logic [WIDTH-1:0] RD2D;
+    logic [WIDTH-1:0] PCD;
+    logic [4:0] RdD; 
+    logic [WIDTH-1:0] ImmExtD;
+    logic [WIDTH-1:0] PCPlus4D; 
    
-    logic PCsrcE,
-    logic [WIDTH-1:0] PCTargetE,
-    logic [WIDTH-1:0] PCF,
-    logic [WIDTH-1:0] InstrF,
-    logic [WIDTH-1:0] PCPlus4F
+    logic PCsrcE;
+    logic [WIDTH-1:0] PCTargetE;
+    logic [WIDTH-1:0] PCF;
+    logic [WIDTH-1:0] InstrF;
+    logic [WIDTH-1:0] PCPlus4F;
 ///////////////////////////////////////////////
 
-    //Control Hazard
-    logic flush
+//Control Hazard
+    logic flush;
 
 //execute
-    logic  RegWriteD,
-    logic  [1:0] ResultSrcD,
-    logic  MemWriteD,
-    logic  JumpD,
-    logic  BranchD,
-    logic [2:0] ALUControlD,
-    logic  ALUSrcD,
+    logic  RegWriteD;
+    logic  [1:0] ResultSrcD;
+    logic  MemWriteD;
+    logic  JumpD;
+    logic  BranchD;
+    logic [2:0] ALUControlD;
+    logic  ALUSrcD;
   //non control signals
-    logic [WIDTH-1:0] RD1D,
-    logic [WIDTH-1:0] RD2D,
-    logic [WIDTH-1:0] PCD,
-    logic [WIDTH-1:0] ImmExtD,
-    logic [4:0] RdD,
-    logic [WIDTH-1:0] PCPlus4D,  
+    logic [WIDTH-1:0] RD1D;
+    logic [WIDTH-1:0] RD2D;
+    logic [WIDTH-1:0] PCD;
+    logic [WIDTH-1:0] ImmExtD;
+    logic [4:0] RdD;
+    logic [WIDTH-1:0] PCPlus4D; 
   //control signals
-    logic  RegWriteE,
-    logic [1:0] ResultSrcE,
-    logic  MemWriteE,
-    logic  PCSrcE,
+    logic  RegWriteE;
+    logic [1:0] ResultSrcE;
+    logic  MemWriteE;
+    logic  PCSrcE;
   //others
-    logic [WIDTH-1:0] ALUResultE,
-    logic [WIDTH-1:0] WriteDataE,
-    logic [WIDTH-1:0] PCTargetE,
-    logic [4:0] RdE,
-    logic [WIDTH-1:0] PCPlus4E
+    logic [WIDTH-1:0] ALUResultE;
+    logic [WIDTH-1:0] WriteDataE;
+    logic [WIDTH-1:0] PCTargetE;
+    logic [4:0] RdE;
+    logic [WIDTH-1:0] PCPlus4E;
 //////////////////////////////////////////////////
 //writeback 
   //control signals
-    logic RegWriteM,
-    logic [1:0] ResultSrcM,
+    logic RegWriteM;
+    logic [1:0] ResultSrcM;
   //others
-    logic [WIDTH-1:0] ALUResultM,
-    logic [WIDTH-1:0] ReadDataM,
-    logic [4:0] RdM,
-    logic [WIDTH-1:0] PCPlus4M,
-
-//control hazard
-assign flush = (PCSrcE = 1) ? 1,0;
+    logic [WIDTH-1:0] ALUResultM;
+    logic [WIDTH-1:0] ReadDataM;
+    logic [4:0] RdM;
+    logic [WIDTH-1:0] PCPlus4M;
 
   //control signals output   
-    logic RegWriteW,
+    logic RegWriteW;
   //others
-    logic [WIDTH-1:0] RdW,
-    logic [WIDTH-1:0] ResultW
+    logic [WIDTH-1:0] RdW;
+    logic [WIDTH-1:0] ResultW;
+
+    assign flush = (PCSrcE = 1) ? 1:0;
+
 Fetch_top fetch (
     .clk(clk),
     .rst(rst),
@@ -148,25 +148,6 @@ Execute_top execute (
     .RdD(RdD),
     .ImmExtD(ImmExtD),
     .PCPlus4D(PCPlus4D),
-     Writeback_top Writeback_top (
-
-    .clk(clk),
-
-    //blue
-    .RegWriteM(RegWriteM),
-    
-    //white
-    .ResultSrcM(ResultSrcM),
-    .ALUResultM (ALUResultM),
-    .ReadDataM (ReadDataM),
-    .PCPlus4M (PCPlus4M),
-    .RdM (RdM),
-    //output
-    .RegWriteW(RegWriteW),
-    .RdW (RdW),
-    .ResultW (ResultW)
-
-);
 
     .RegWriteE(RegWriteE),
     .ResultSrcE(ResultSrcE),

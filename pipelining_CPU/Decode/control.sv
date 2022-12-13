@@ -1,16 +1,18 @@
 module control #(
     parameter D_WIDTH = 32
 )(
-    input logic Zero, //what does this do?
+    //input logic Zero, 
     input logic [D_WIDTH-1:0] Instr, //will need more than this later , for fn3 and 7
 
-    output logic PCSrc, 
+    //output logic PCSrc, 
     output logic [1:0] ResultSrc,
     output logic MemWrite,
     output logic [2:0] ALUControl,
     output logic ALUSrc,
-    output logic [1:0] ImmSrc,  
+    output logic [3:0] ImmSrc,  
     output logic RegWrite,
+    output logic JumpD,
+    output logic BranchD,
     output logic JALRctrl                
 );
 
@@ -19,14 +21,14 @@ logic [1:0] ALUOp;
 decodemain dmain(
     //.opcode(Instr[6:0]),
     .Instr(Instr),
-    .Zero(Zero),
-    .PCSrc(PCSrc), 
     .ResultSrc(ResultSrc),
     .MemWrite(MemWrite),
     .ALUSrc(ALUSrc),
     .ImmSrc(ImmSrc),  
     .RegWrite(RegWrite),
     .ALUOp(ALUOp),
+    .Jump(JumpD),
+    .Branch(BranchD),
     .JALRctrl(JALRctrl)
 );
 

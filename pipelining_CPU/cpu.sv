@@ -65,6 +65,28 @@ Decode_top decode (
     .PCPlus4D(RD1D)
 );
 
+Writeback_top Writeback_top (
+
+    .clk(clk),
+
+    //blue
+    .RegWriteM(RegWriteM),
+    
+    //white
+    .ResultSrcM(ResultSrcM),
+    .ALUResultM (ALUResultM),
+    .ReadDataM (ReadDataM),
+    .PCPlus4M (PCPlus4M),
+    .RdM (RdM),
+    //output
+    .RegWriteW(RegWriteW),
+    .RdW (RdW),
+    .ResultW (ResultW)
+
+);
+
+
+
 
 
 endmodule

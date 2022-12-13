@@ -29,7 +29,9 @@ module cpu #(
     logic [WIDTH-1:0] ImmExtD,
     logic [WIDTH-1:0] PCPlus4D, 
    //execute
+
    //memory
+
    //writeback
 
 Fetch_top fetch (
@@ -47,6 +49,8 @@ Decode_top decode (
     .PCF(PCF),
     .InstrF(InstrF),
     .PCPlus4F(PCPlus4F),
+    .Rdw(Rdw),
+
 
     .RegWriteD(RegWriteD),
     .ResultSrcD(ResultSrcD),
@@ -65,6 +69,65 @@ Decode_top decode (
     .PCPlus4D(RD1D)
 );
 
+Execute_top execute (
+    // store the input value
+    // blue section
+    .clk(clk),
+    .RegWriteD(RegWriteD),
+    .ResultSrcD(ResultSrcD),
+    .MemWriteD(MemWriteD),
+    .JumpD(JumpD),
+    .BranchD(BranchD),
+    .ALUControlD(ALUControlD),
+    .ALUSrcD(ALUSrcD),
+    // white section
+    .clk(clk),
+    .RD1D(RD1D),
+    .RD2D(RD2D),
+    .PCD(PCD),
+    .RdD(RdD),
+    .ImmExtD(ImmExtD),
+    .PCPlus4D(PCPlus4D),
+//output
+    .RegWriteE(RegWriteE),
+    .ResultSrcE(ResultSrcE),
+    .MemWriteE(MemWriteE),
+    .PCSrcE(PCSrcE),
+    .ALUResultE(ALUResultE),
+    .WriteDataE(WriteDataE),
+    .PCTargetE(PCTargetE),
+    .RdE(RdE),
+    .PCPlus4E(PCPlus4E)
+);
 
+Memory_top memory (
+    .clk(clk),
+    .RegWriteD(RegWriteD),
+    .ResultSrcD(ResultSrcD),
+    .MemWriteD(MemWriteD),
+    .ALUResultE(ALUResultE),
+    .WriteDataE(WriteDataE),
+    .RdE(RdE),
+    .PCPlus4E(PCPlus4E),
+    .RegWriteM(RegWriteM),
+    .ResultSrM(ResultSrM),
+    .ALUResultM(ALUResultM),
+    .ReadDataM(ReadDataM),
+    .RdM(RdM),
+    .PCPlus4M(PCPlus4M),
+);
+
+Writeback_top writeback (
+    .clk(clk),
+    .RegWriteM(RegWriteM),
+    .ResultSrcM(ResultSrcM),
+    .ALUResultM(ALUResultM),
+    .ReadDataM(ReadDataM),
+    .RdM(RdM),
+    .PCPlus4M(PCPlus4M),
+    .RegWriteW(RegWriteW),
+    .RdW(RdW),
+    .ResultW(ResultW),
+);
 
 endmodule

@@ -1,9 +1,9 @@
 module cpu #(
     parameter ADDRESS_WIDTH = 32
 )(
-    input clk,
-    input rst,
-    output [ADDRESS_WIDTH-1:0] a0
+    clk,
+    rst,
+    [ADDRESS_WIDTH-1:0] a0
 
 );
     //fetch
@@ -13,6 +13,10 @@ module cpu #(
    logic [WIDTH-1:0] InstrF;
    logic [WIDTH-1:0] PCPlus4F;
    //decode
+    logic [WIDTH-1:0] PCF,
+    logic [WIDTH-1:0] PCPlus4F
+    logic [4:0] RdW,
+    logic [WIDTH-1:0] ResultW,
     logic RegWriteD,
     logic [1:0] ResultSrcD,
     logic MemWriteD,
@@ -28,12 +32,55 @@ module cpu #(
     logic [4:0] RdD, 
     logic [WIDTH-1:0] ImmExtD,
     logic [WIDTH-1:0] PCPlus4D, 
-   //execute
+   
+    logic PCsrcE,
+    logic [WIDTH-1:0] PCTargetE,
+    logic [WIDTH-1:0] PCF,
+    logic [WIDTH-1:0] InstrF,
+    logic [WIDTH-1:0] PCPlus4F
+///////////////////////////////////////////////
+//execute
+    logic  RegWriteD,
+    logic  [1:0] ResultSrcD,
+    logic  MemWriteD,
+    logic  JumpD,
+    logic  BranchD,
+    logic [2:0] ALUControlD,
+    logic  ALUSrcD,
+  //non control signals
+    logic [WIDTH-1:0] RD1D,
+    logic [WIDTH-1:0] RD2D,
+    logic [WIDTH-1:0] PCD,
+    logic [WIDTH-1:0] ImmExtD,
+    logic [4:0] RdD,
+    logic [WIDTH-1:0] PCPlus4D,  
+  //control signals
+    logic  RegWriteE,
+    logic [1:0] ResultSrcE,
+    logic  MemWriteE,
+    logic  PCSrcE,
+  //others
+    logic [WIDTH-1:0] ALUResultE,
+    logic [WIDTH-1:0] WriteDataE,
+    logic [WIDTH-1:0] PCTargetE,
+    logic [4:0] RdE,
+    logic [WIDTH-1:0] PCPlus4E
+//////////////////////////////////////////////////
+//writeback 
+  //control signals
+    logic RegWriteM,
+    logic [1:0] ResultSrcM,
+  //others
+    logic [WIDTH-1:0] ALUResultM,
+    logic [WIDTH-1:0] ReadDataM,
+    logic [4:0] RdM,
+    logic [WIDTH-1:0] PCPlus4M,
 
-   //memory
-
-   //writeback
-
+  //control signals output   
+    logic RegWriteW,
+  //others
+    logic [WIDTH-1:0] RdW,
+    logic [WIDTH-1:0] ResultW
 Fetch_top fetch (
     .clk(clk),
     .rst(rst),
@@ -70,7 +117,7 @@ Decode_top decode (
 );
 
 Execute_top execute (
-    // store the input value
+    // store the       value
     // blue section
     .clk(clk),
     .RegWriteD(RegWriteD),
@@ -88,7 +135,7 @@ Execute_top execute (
     .RdD(RdD),
     .ImmExtD(ImmExtD),
     .PCPlus4D(PCPlus4D),
-//output
+     
     .RegWriteE(RegWriteE),
     .ResultSrcE(ResultSrcE),
     .MemWriteE(MemWriteE),
@@ -102,15 +149,19 @@ Execute_top execute (
 
 Memory_top memory (
     .clk(clk),
+    // control signals
     .RegWriteD(RegWriteD),
     .ResultSrcD(ResultSrcD),
     .MemWriteD(MemWriteD),
+    // others 
     .ALUResultE(ALUResultE),
     .WriteDataE(WriteDataE),
     .RdE(RdE),
     .PCPlus4E(PCPlus4E),
+    // control output signals
     .RegWriteM(RegWriteM),
     .ResultSrM(ResultSrM),
+    //others 
     .ALUResultM(ALUResultM),
     .ReadDataM(ReadDataM),
     .RdM(RdM),
@@ -119,13 +170,17 @@ Memory_top memory (
 
 Writeback_top writeback (
     .clk(clk),
+//control signals
     .RegWriteM(RegWriteM),
     .ResultSrcM(ResultSrcM),
+//others
     .ALUResultM(ALUResultM),
     .ReadDataM(ReadDataM),
     .RdM(RdM),
     .PCPlus4M(PCPlus4M),
+// control signals outputs 
     .RegWriteW(RegWriteW),
+//others 
     .RdW(RdW),
     .ResultW(ResultW),
 );

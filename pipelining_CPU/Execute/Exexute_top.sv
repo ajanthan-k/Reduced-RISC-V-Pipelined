@@ -3,6 +3,10 @@ module Execute_top #(
 
 )(
   input logic    clk,
+
+  //control hazard
+  input logic flush,
+   
   //control signals
   input logic  RegWriteD,
   input logic  [1:0] ResultSrcD,
@@ -28,7 +32,8 @@ module Execute_top #(
   output logic [WIDTH-1:0] WriteDataE,
   output logic [WIDTH-1:0] PCTargetE,
   output logic [4:0] RdE,
-  output logic [WIDTH-1:0] PCPlus4E
+  output logic [WIDTH-1:0] PCPlus4E,
+
 
 );
 
@@ -48,24 +53,61 @@ assign SrcBE = ALUSrcE ? ImmExtE : RD2E;
 assign PCTargetE = JALRctrl ? ALUout :  PCE + ImmExtE;
 
 //decode2exec_reg  
+// always_ff @(posedge clk) begin
+//     //control signals
+//     RegWriteE <= RegWriteD; 
+//     ResultSrcE <= ResultSrcD;
+//     MemWriteE <= MemWriteD;
+//     JumpE <= JumpD;
+//     BranchE <= BranchD;
+//     ALUControlE <= ALUControlD;
+//     ALUSrcE <= ALUSrcD;
+//     JALRctrlE <= JALRctrlD;
+//     //others
+//     RD1E <= RD1D;
+//     RD2E <= RD2D;
+//     PCE <= PCD;
+//     RdE <= RdD; 
+//     ImmExtE <= ImmExtD;
+//     PCPlus4E <= PCPlus4D;
+
+// end
+//fix control hazard v1
+
 always_ff @(posedge clk) begin
     //control signals
-    RegWriteE <= RegWriteD; 
-    ResultSrcE <= ResultSrcD;
-    MemWriteE <= MemWriteD;
-    JumpE <= JumpD;
-    BranchE <= BranchD;
-    ALUControlE <= ALUControlD;
-    ALUSrcE <= ALUSrcD;
-    JALRctrlE <= JALRctrlD;
+    if (flush) 
+         RegWriteE <= 0; 
+         ResultSrcE <= 0;
+         MemWriteE <= 0;
+         JumpE <= 0;
+         BranchE <= 0;
+         ALUControlE <= 0;
+         ALUSrcE <= 0;
+         JALRctrlE <= 0;
     //others
-    RD1E <= RD1D;
-    RD2E <= RD2D;
-    PCE <= PCD;
-    RdE <= RdD; 
-    ImmExtE <= ImmExtD;
-    PCPlus4E <= PCPlus4D;
-
+         RD1E <= 0;
+         RD2E <= 0;
+         PCE <= 0;
+         RdE <= 0; 
+         ImmExtE <= 0;
+         PCPlus4E <= 0;
+    else 
+         RegWriteE <= RegWriteD; 
+         ResultSrcE <= ResultSrcD;
+         MemWriteE <= MemWriteD;
+         JumpE <= JumpD;
+         BranchE <= BranchD;
+         ALUControlE <= ALUControlD;
+         ALUSrcE <= ALUSrcD;
+         JALRctrlE <= JALRctrlD;
+         //others
+         RD1E <= RD1D;
+         RD2E <= RD2D;
+         PCE <= PCD;
+         RdE <= RdD; 
+         ImmExtE <= ImmExtD;
+         PCPlus4E <= PCPlus4D;
 end
 
 ALU ALU (

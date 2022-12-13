@@ -2,7 +2,7 @@ module ALU #(
     parameter 
               DATA_WIDTH = 32
 )(
-    input logic [DATA_WIDTH-1:0] SrcAE,
+    input logic [DATA_WIDTH-1:0] RD1E,
     input logic [DATA_WIDTH-1:0] SrcBE,
     input logic [2:0] ALUctrlE,
     

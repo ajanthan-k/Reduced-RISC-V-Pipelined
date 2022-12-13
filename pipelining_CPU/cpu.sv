@@ -39,6 +39,10 @@ module cpu #(
     logic [WIDTH-1:0] InstrF,
     logic [WIDTH-1:0] PCPlus4F
 ///////////////////////////////////////////////
+
+    //Control Hazard
+    logic flush
+
 //execute
     logic  RegWriteD,
     logic  [1:0] ResultSrcD,
@@ -76,6 +80,9 @@ module cpu #(
     logic [4:0] RdM,
     logic [WIDTH-1:0] PCPlus4M,
 
+//control hazard
+assign flush = (PCSrcE = 1) ? 1,0;
+
   //control signals output   
     logic RegWriteW,
   //others
@@ -88,7 +95,11 @@ Fetch_top fetch (
     .PCTargetE(PCTargetE),
     .PCF(PCF),
     .InstrF(InstrF),
+    //control hazard
+    .flush (flush),
+    //----
     .PCPlus4F(PCPlus4F)
+
 );
 
 Decode_top decode (
@@ -114,6 +125,8 @@ Decode_top decode (
     .RdD(RD1D), 
     .ImmExtD(RD1D),
     .PCPlus4D(RD1D)
+
+    
 );
 
 Execute_top execute (
@@ -135,7 +148,26 @@ Execute_top execute (
     .RdD(RdD),
     .ImmExtD(ImmExtD),
     .PCPlus4D(PCPlus4D),
-     
+     Writeback_top Writeback_top (
+
+    .clk(clk),
+
+    //blue
+    .RegWriteM(RegWriteM),
+    
+    //white
+    .ResultSrcM(ResultSrcM),
+    .ALUResultM (ALUResultM),
+    .ReadDataM (ReadDataM),
+    .PCPlus4M (PCPlus4M),
+    .RdM (RdM),
+    //output
+    .RegWriteW(RegWriteW),
+    .RdW (RdW),
+    .ResultW (ResultW)
+
+);
+
     .RegWriteE(RegWriteE),
     .ResultSrcE(ResultSrcE),
     .MemWriteE(MemWriteE),

@@ -28,9 +28,16 @@ module cpu #(
     logic [4:0] RdD, 
     logic [WIDTH-1:0] ImmExtD,
     logic [WIDTH-1:0] PCPlus4D, 
+
+    //Control Hazard
+    logic flush
+
    //execute
    //memory
    //writeback
+
+//control hazard
+assign flush = (PCSrcE = 1) ? 1,0;
 
 Fetch_top fetch (
     .clk(clk),
@@ -39,7 +46,11 @@ Fetch_top fetch (
     .PCTargetE(PCTargetE),
     .PCF(PCF),
     .InstrF(InstrF),
+    //control hazard
+    .flush (flush),
+    //----
     .PCPlus4F(PCPlus4F)
+
 );
 
 Decode_top decode (
@@ -63,6 +74,8 @@ Decode_top decode (
     .RdD(RD1D), 
     .ImmExtD(RD1D),
     .PCPlus4D(RD1D)
+
+    
 );
 
 Writeback_top Writeback_top (
@@ -84,9 +97,6 @@ Writeback_top Writeback_top (
     .ResultW (ResultW)
 
 );
-
-
-
 
 
 endmodule

@@ -4,7 +4,7 @@ module ALU #(
 )(
     input logic [DATA_WIDTH-1:0] RD1E,
     input logic [DATA_WIDTH-1:0] SrcBE,
-    input logic [2:0] ALUctrlE,
+    input logic [2:0] ALUControlE,
     
     output logic [DATA_WIDTH-1:0] ALUout,
     output logic ZeroE

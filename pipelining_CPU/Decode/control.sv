@@ -9,10 +9,10 @@ module control #(
     output logic MemWrite,
     output logic [2:0] ALUControl,
     output logic ALUSrc,
-    output logic [3:0] ImmSrc,  
+    output logic [2:0] ImmSrc,  
     output logic RegWrite,
-    output logic JumpD,
-    output logic BranchD,
+    output logic Jump,
+    output logic Branch,
     output logic JALRctrl                
 );
 
@@ -27,8 +27,8 @@ decodemain dmain(
     .ImmSrc(ImmSrc),  
     .RegWrite(RegWrite),
     .ALUOp(ALUOp),
-    .Jump(JumpD),
-    .Branch(BranchD),
+    .Jump(Jump),
+    .Branch(Branch),
     .JALRctrl(JALRctrl)
 );
 

@@ -40,7 +40,7 @@ end
 
 Writeback_mux Writeback_mux (
 
-  .ALUResultM (ALUResultW);
+  .ALUResultW (ALUResultW);
   .ReadDataW (ReadDataW);
   .PCPlus4W (PCPlus4W);
   .ResultW (ResultW);

@@ -23,17 +23,16 @@ module register #(
         RD2 = ram_array [A2];
     end
 
-    initial begin
+    initial begin // good practise, for improvements use rst instead of initial
         for (int i = 0; i< $size(ram_array); i++) begin
             ram_array[i] = 32'b0;
         end
     end
 
-    always_ff @ (posedge clk) begin
-        if (WE3)  ram_array[A3] <= WD3;
-        ram_array[0] <= 32'b0;
+    always_ff @ (posedge clk) begin //never write to x0
+        if ((WE3) && (AD3 != 0))  ram_array[AD3] <= WD3;
     end
 
-    assign a0 = ram_array[10];
+    assign a0 = ram_array[10]; 
 
 endmodule

@@ -71,7 +71,7 @@ end
 ALU ALU (
    .SrcAE (RD1E),
    .SrcBE (SrcBE),
-   .ALUcontrolE (ALUControlE),
+   .ALUControlE (ALUControlE),
    .ALUout (ALUResultE),
    .ZeroE (ZeroE)
 );

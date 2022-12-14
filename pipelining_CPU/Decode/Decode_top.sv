@@ -82,7 +82,7 @@ register Reg_File (
 extend extd (
     .Instr(InstrD),
     .ImmSrc(ImmSrcD),
-    .ImmOp(ImmExtD)
+    .ImmExt(ImmExtD)
 )
     
 endmodule

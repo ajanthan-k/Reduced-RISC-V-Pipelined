@@ -22,7 +22,7 @@ always_comb
         7'b10100??: ALUControl = 3'b100;    //xor
 
         //B type
-        7'b0100???: ALUControl = 3'b001;    //beq, bne
+        7'b0100???: ALUControl = 3'b001;    //bne
 
         //I and S types, aluop = 00
         7'b0000100: ALUControl = 3'b110;    //slli, fn7 only matters if more load ins (op 3) are needed

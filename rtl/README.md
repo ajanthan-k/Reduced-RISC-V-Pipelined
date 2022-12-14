@@ -7,28 +7,28 @@
 |**Module**|**Ajanthan**|**Clifford**|**Erenkai**|**Jim**|
 |:-------|:------------:|:-------:|:-------:|:---------:|
 |**Assembly**|
-| assembly.s |    x     |        |     *    |           |
-| realassembly.s |  x   |        |     *    |           |
+| assembly.s |    X     |        |     *    |           |
+| realassembly.s |  X   |        |     *    |           |
 |**Top**|
-| cpu.sv |              |    x    |    *    |           |
+| cpu.sv |        X     |    X    |    *    |     X     |
 | cpu_tb.cpp |    *     |         |         |           |
 |**Fetch**|
-| instr_mem.sv |   x    |    *    |         |           |
+| instr_mem.sv |   X    |    *    |         |           |
 | PC_Reg.sv |           |         |    *    |           |
 |**Decode**|
 | control.sv |          |    *    |         |           |
-| decode_alu.sv |   x   |    *    |         |           |
-| decode_main.sv |  x   |    *    |         |           |
+| decode_alu.sv |   X   |    *    |         |           |
+| decode_main.sv |  X   |    *    |         |           |
 | extend.sv |     *     |         |         |           |
-| register.sv |   x     |         |         |           |
+| register.sv |   X     |         |         |     *     |
 |**Execute**|
-| ALU.sv |       x      |         |    x    |     *     |
+| ALU.sv |       X      |         |    X    |     *     |
 |**Memory**|
-| data_mem.sv |    x    |    x    |         |           |
+| data_mem.sv |    X    |    *    |         |           |
 |**Writeback**|
-| Writeback_mux.sv |    |         |         |      *    |
+| Writeback_mux.sv |    |         |         |     *     |
 |**Final testing**|
-|Debug & verification| *|         |        |         |
+|Debug & verification|***|    X   |    X    |           |
 
 '*' = Principle contributor
-'x' = Co-authors
+'X' = Co-authors

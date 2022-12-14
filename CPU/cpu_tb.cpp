@@ -1,7 +1,7 @@
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 #include "Vcpu.h"
-#include "vbuddy.cpp"
+//#include "vbuddy.cpp"
 
 int main(int argc, char **argv, char **env) {
     int i;
@@ -22,7 +22,7 @@ int main(int argc, char **argv, char **env) {
     top->clk = 1;
     top->rst = 1;
 
-    for (i = 0; i < 30000; i++){
+    for (i = 0; i < 20000; i++){
 
         //dump var into VCD file and toggle clk
         for(clk = 0; clk < 2; clk++){

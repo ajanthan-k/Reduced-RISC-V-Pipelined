@@ -1,45 +1,43 @@
-li a4, 5            # this is the starting random number used in lfsr
+.text
+.equ base_pdf, 0x100
+.equ base_data, 0x10000
+.equ max_count, 200
 main:
-li a2, 50           # it count 50 cycles to tick 1 sec
-li t1, 7 
-li a3, 0            # increment 1 after each cycle, maximum 8 # number of lights on
-li a0, 1            # a0 is output, begin as it starting light up #灯泡
+    JAL     ra, init  # jump to init, ra and save position to ra
+    JAL     ra, build
+forever:
+    JAL     ra, display
+    J       forever
 
-light_up_loop:
-jal delay    # default x1
-addi a3, a3, 1      # incre by 1
-slli a0, a0, 1      # 亮灯 sllI shift, x2
-addi a0, a0, 1
-bne  a3, t1, light_up_loop     # 回到传送门
+init:       # function to initiaLUIse PDF buffer memory 
+    LUI      a1, 0xff            # loop_count a1 = 255
+_loop1:                         # repeat
+    SB      zero, base_pdf(a1)  #     mem[base_pdf+a1) = 0
+    ADDI    a1, a1, -1          #     decrement a1
+    BNE     a1, zero, _loop1    # until a1 = 0
+    RET
 
+build:      # function to build prob dist func (pdf)
+    LUI      a1, base_data       # a1 = base address of data array
+    LUI      a2, 0               # a2 = offset into of data array 
+    LUI      a3, base_pdf        # a3 = base address of pdf array
+    LUI      a4, max_count       # a4 = maximum count to terminate
+_loop2:                         # repeat
+    ADD     a5, a1, a2          #     a5 = data base address + offset
+    LBU     t0, 0(a5)           #     t0 = data value
+    ADD     a6, t0, a3          #     a6 = index into pdf array
+    LBU     t1, 0(a6)           #     t1 = current bin count
+    ADDI    t1, t1, 1           #     increment bin count
+    SB      t1, 0(a6)           #     update bin count
+    ADDI    a2, a2, 1           #     point to next data in array
+    BNE     t1, a4, _loop2      # until bin count reaches max
+    RET
 
-# random number generator
-# when all lights are on, go next step to generate an random number
-# ifsr loop, to generate a random number
-andi a6, a4, 0x8 
-andi a7, a4, 0x4
-slli a4, a4, 1      # shift
-srli a6, a6, 3      # shift x4 to the left most
-srli a7, a7, 2      # shift x3 to the left most
-xor a6, a6, a7      # x3 xor x4
-or a4, a4, a6       # a4 is the new random number for delaying #working with bits
-andi a4, a4, 0xf    # 取后四位
-
-# when random number is generated, start the delay loop 
-li a3, 1
-
-off_delay_loop:
-jal delay    # reg contains return address
-addi a3, a3, 1
-bne  a3, a4, off_delay_loop     # count a4 delay loops then go next step to close all lights back to jal
-li a0, 0            # give output a0 the value zero so close all light      # 关灯
-j main       # 回到 一开始循环
-
-
-delay:       # the counter loop that counts one second the subroutine using JAL
-li a5, 0            # counts stuff
-
-delay_loop:
-addi a5, a5, 1 
-bne  a5, a2, delay_loop     # go to next step when counts 28a2 cycles. Estimaating count 28 cycle spending 1 second, 一直加到1秒
-ret                 # reg contains return address rs # 和jal配套使用
+display:    # function send PDF array value to a0 for display
+    LUI      a1, 0               # a1 = offset into pdf array
+    LUI      a2, 255             # a2 = max index of pdf array
+_loop3:                         # repeat
+    LBU     a0, base_pdf(a1)    #   a0 = mem[base_pdf+a1)
+    addi    a1, a1, 1           #   incr 
+    BNE     a1, a2, _loop3      # until end of pdf array
+    RET

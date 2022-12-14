@@ -39,9 +39,12 @@ logic [WIDTH-1:0] ImmExtE;
 logic [WIDTH-1:0] SrcBE;
 logic [2:0] ALUControlE;
 logic ALUSrcE;
+logic BranchE;
+logic JumpE;
+logic ZeroE;
 // logic ALU AE;
 
-assign PCSrc = JumpE | (BranchE & ZeroE); //Zero is HIGH when branches are not equal
+assign PCSrcE = JumpE | (BranchE & ZeroE); //Zero is HIGH when branches are not equal
 
 assign WriteDataE = RD2E;
 assign SrcBE = ALUSrcE ? ImmExtE : RD2E;

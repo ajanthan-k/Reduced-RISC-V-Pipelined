@@ -2,6 +2,8 @@
 
 ---
 
+NB: This file should briefly describe what the team has achieved. This is a joint statement for the team and must include an agreed statement on the contributions by each member of the team.
+
 ## Group 36 Project Members
 
 * Ajanthan Kanagasabapathy
@@ -19,10 +21,10 @@
 
 1. A `README.md` file in the root directory that briefly describe what the team has achieved. This is a **joint statement** for team and must include an agreed statement on the contributions by each member of the team. 
 2. Each individual's **personal statement** explaining what they contributed, reflection about what they have learned in this project, mistakes they made, special design decisons, and what they might do differently if they were to do it again or have more time.  This statement must be succinct and to the point, yet must include sufficient details for the assessor to check against the push history of the repo so that any claims can be verified. Including links to a selection of specific commits which demonstrate work done by each member is advised. If work is shared with another member on a module, make sure to give them [co-author credit](https://docs.github.com/en/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/creating-a-commit-with-multiple-authors#creating-co-authored-commits-on-the-command-line). Additionally, try to make meaningful commit messages.
-3. A folder called `rtl` with the source of the processor. If there are multiple versions due to the stretched goals, the team may use multiple branches. The `README.md` file must provide sufficient explanation for the assessor to understand what the team member has done and how to find their work on all branches they wish to be assessed.  The `rtl` folder should also include a `README.md` file listing who wrote which module/file.
-4. A `test` folder with the F1 program. The folder must also contain test results for the processor successfully executing the F1 program and the assessor's reference program.
+3. A folder called `rtl` with the source of the processor. If there are multiple versions due to the stretched goals, the team may use multiple branches. The `README.md` file must provide sufficient explanation for the assessor to understand what the team member has done and how to find their work on all branches they wish to be assessed *(I think this is the main branch README file?)*.  The `rtl` folder should also include a `README.md` file listing who wrote which module/file.
+4. A `test` folder with the F1 program. The folder must also contain test results for the processor successfully executing the F1 program and the assessor's reference program. *(remember to do this)*
 5. The name of the repo has team number 36 at the end.
-6. Provide a Makefile or a shell script that allows the assessor to build the team's processor model and run the testbench to repeat what the team had achieved.
+6. Provide a Makefile or a shell script that allows the assessor to build the team's processor model and run the testbench to repeat what the team had achieved. *(remember to do this)*
 
 <br>
 
@@ -69,19 +71,3 @@ The data cache capacity should be no more than 256 bytes.
 ## Tasks/contributions
 
 ---
-
-### By Week 1 (Thu 8 Dec)
-
-- [x] Program Counter and related adders. (Blue) Contibutors: Erenkai
-
-- [ ] The Register File, ALU and the related MUX. (Red) Contributors: Jim, Erenkai(co)
-
-- [x] The Control Unit, the Sign-extension Unit and the instruction memory. (Green) Contributors: Clifford, Ajanthaan
-
-- [ ] The testbench and verification of Blue working via gtkWave and Vbuddy (where appropriate) Contributors: Erenkai
-
-- [ ] The testbench and verification of Red working via gtkWave and Vbuddy (where appropriate) Contributors: Jim
-
-- [ ] The testbench and verification of Green working via gtkWave and Vbuddy (where appropriate) Contributors: Clifford
-
-- [ ] The testbench and verification of final design working via gtkWave and Vbuddy (where appropriate) Contributors: Ajanthan, Clifford (co)

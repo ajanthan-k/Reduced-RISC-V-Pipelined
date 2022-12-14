@@ -6,26 +6,25 @@ module cpu #(
     output [ADDRESS_WIDTH-1:0] a0
 
 );
-   
-    // logic [ADDRESS_WIDTH-1:0] instr;
-    // logic ImmSrc;
-    logic Zero;
+
     logic [ADDRESS_WIDTH-1:0] PC;
+    logic [ADDRESS_WIDTH-1:0] instr;    
     logic [ADDRESS_WIDTH-1:0] PCPlus4;
     logic [ADDRESS_WIDTH-1:0] PCTarget;
-    logic [ADDRESS_WIDTH-1:0] ImmOp;
+
     logic PCsrc;
     logic RegWrite;
-    logic [3-1:0] ALUctrl; //needs to be 3 bit
+    logic [2:0] ALUctrl; 
     logic ALUsrc;
-    logic [1:0] ImmSrc;
-    logic [ADDRESS_WIDTH-1:0] instr;
+    logic [2:0] ImmSrc;
     logic [1:0] ResultSrc;
     logic MemWrite;
     logic JALRctrl;
+    logic Zero;
 
-//blue
-PC_top blue (
+    logic [ADDRESS_WIDTH-1:0] ImmOp;
+
+PC_top PC_top (
   .clk(clk),
   .rst(rst),
   .PCTarget(PCTarget),
@@ -41,7 +40,7 @@ instrmem rom (
 );
 
 control ctrl (
-    .Instr(instr), //how to take the last 7 bits of instr from rom
+    .Instr(instr),
     .Zero(Zero),
     .PCSrc(PCsrc),
     .ResultSrc(ResultSrc),
@@ -54,13 +53,13 @@ control ctrl (
 );
 
 extend sign_ext (
-    .Instr(instr),  //same here
+    .Instr(instr), 
     .ImmSrc(ImmSrc),
     .ImmOp(ImmOp)
 );
 
 //red
-red_top red(
+execute Execute_top(
   .ImmOp(ImmOp),
   .clk(clk),
   .RegWrite(RegWrite),
@@ -80,3 +79,4 @@ red_top red(
 );
 
 endmodule
+

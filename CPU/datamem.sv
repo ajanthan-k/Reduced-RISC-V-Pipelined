@@ -1,28 +1,31 @@
 module datamem #(
-    parameter ADDRESS_WIDTH = 32,
-              DATA_WIDTH = 32
+    parameter EXT_WIDTH = 32,   //width if external signals
+              DATA_WIDTH = 8    //Width of data in datamem
 )(
     input logic clk,
-    input logic [ADDRESS_WIDTH-1:0] A,    
-    input logic [ADDRESS_WIDTH-1:0] WD,
+    input logic [EXT_WIDTH-1:0] A,    
+    input logic [EXT_WIDTH-1:0] WD,
     input logic WE,
 
-    output logic [DATA_WIDTH-1:0] RD
-
+    output logic [EXT_WIDTH-1:0] RD
 );
 
-    logic [DATA_WIDTH-1:0] ram_array [2**ADDRESS_WIDTH-1:0];
+    logic [DATA_WIDTH-1:0] data_mem_array [32'h1FFFF : 32'h0];
 
+    //reading from memory - only implement load byte
     always_comb begin
-        RD = ram_array[A];
+        RD = {{24{1'b0}}, data_mem_array[A]};
     end
 
-    // initial begin
-    //      $readmemh("data.hex", ram_array); //read from this hex file
-    // end
+    initial begin
+        //$readmemh("data.hex", data_mem_array); //read from this hex file
+        $readmemh("sine.mem", data_mem_array, 32'h00010000, 32'h0001FFFF);
+    end
 
+    //writing to memory - only implementing store byte
     always_ff @ (posedge clk) begin
-        if (WE)  ram_array[A] <= WD;
+        if (WE)  
+            data_mem_array[A] <= WD[7:0];
     end
 
 endmodule

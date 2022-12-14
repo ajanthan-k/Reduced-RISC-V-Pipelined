@@ -20,7 +20,7 @@ always_comb
         7'b10100??: ALUControl = 3'b100; //xor
 
         //B type
-        7'b0100???: ALUControl = 3'b001;   //beq, bne
+        7'b0100???: ALUControl = 3'b001;   //bne
 
         //I and S types, aluop = 00
         7'b00001??: ALUControl = 3'b110; //slli, fn7 only matters if more load ins (op 3) are needed
@@ -28,6 +28,8 @@ always_comb
         7'b00111??: ALUControl = 3'b010;//andi, fn7 and op dont matter, as op 3 load ins do not have fn3=111
 
         //U and J types would be ALUOp = 11, but since we only use jal, this is not used
+        7'b11???1?: ALUControl = 3'b101;
+
         default: ALUControl = 3'b000;
     endcase
 

@@ -24,12 +24,12 @@ module ALU #(
             
             // 3'b101:  slt, which is not used
 
-           default: ALUout = 0;
+           default: ALUout = ALUop2; // for LUI where Imm has to pass through
     
         endcase
     
      end
      
-     assign ZeroE = (SrcAE - SrcBE == 0) ? 1'b1 : 1'b0;
+     assign ZeroE = (SrcAE - SrcBE == 0) ? 1'b0 : 1'b1; //for bne
 
 endmodule

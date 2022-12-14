@@ -20,7 +20,7 @@ assign opcode = instr[6:0];
 
 always_comb begin 
     case (opcode)
-        7'b0010011: begin
+        7'b0010011: begin //addi
             ALUctrl = 3'b000;
             ALUsrc = 1'b1;
             ImmSrc = 1'b1;
@@ -28,7 +28,7 @@ always_comb begin
             RegWrite = 1'b1;
         end
 
-        7'b1100011: begin
+        7'b1100011: begin //bne
             ALUctrl = 3'b111; //default 0
             ALUsrc = 1'b0;
             ImmSrc = 1'b0;

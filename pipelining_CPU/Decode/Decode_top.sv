@@ -3,6 +3,9 @@ module Decode_top #(
 ) (
     input clk,
 
+    //control hazard
+    input logic flush,
+
     input logic [WIDTH-1:0] InstrF,
     input logic [WIDTH-1:0] PCF,
     input logic [WIDTH-1:0] PCPlus4F,
@@ -31,11 +34,24 @@ logic [WIDTH-1:0] InstrD;
 logic [2:0] ImmSrcD;
 
 // fetch2decode_Reg
+// always_ff @(posedge clk) begin
+//     InstrD <= InstrF;
+//     PCD <= PCF;
+//     PCPlus4D <= PCPlus4F;
+// end
+
+//fix control hazard v1
 always_ff @(posedge clk) begin
-    InstrD <= InstrF;
-    PCD <= PCF;
-    PCPlus4D <= PCPlus4F;
+    if (flush) 
+        instrF <= 0;
+        PCF <= 0;
+        PCPlus4F <= 0;
+    else 
+        instrD <= instrF;
+        PCD <= PCF;
+        PCPlus4D <= PCPlus4F;
 end
+
 
 assign RdD = InstrD[11:7]; //potential time errors amd more here
 

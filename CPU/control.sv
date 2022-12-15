@@ -16,7 +16,7 @@ module control #(
 
 logic [1:0] ALUOp; 
 
-decodemain dmain(
+decode_main dmain(
     //.opcode(Instr[6:0]),
     .Instr(Instr),
     .Zero(Zero),
@@ -30,7 +30,7 @@ decodemain dmain(
     .JALRctrl(JALRctrl)
 );
 
-decodealu dalu(
+decode_alu dalu(
     .opcode(Instr[6:0]),
     .ALUOp(ALUOp),
     .fn3(Instr[14:12]),

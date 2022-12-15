@@ -1,4 +1,4 @@
-module instrmem #(
+module instr_mem #(
     parameter D_WIDTH = 8, // For byte addressing
 //              A_WIDTH = 12, //Due to memory map, instr mem has 000 to FFF, so 12 bits
               EXT_WIDTH = 32 //Signals from PC and the output are both 32 bits

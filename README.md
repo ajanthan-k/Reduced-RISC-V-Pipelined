@@ -68,6 +68,73 @@ The data cache capacity should be no more than 256 bytes.
 
 ---
 
-## Tasks/contributions
+## The Project
 
 ---
+
+### The Control Unit
+
+#### **Single Cycle**
+
+The control unit was constructed based on the schematic on Slides 17-19 from Lecture 7(link?), and thus consists of three modules: `control.sv`, `decode_main.sv`, and `decode_alu.sv` (link), where `control.sv` acts as the top level module linking the other two modules.
+
+(L7 S17 pic)
+
+The above signals were implemented in `decode_main.sv` and each have the following functions:
+
+(Table of basic signals from top left diagram in OneNote and their functions including ALUOp)
+
+In addition to these signals, the `JALRctrl` signal was added...(explain fn/purpose)
+
+Moreover, an extra bit was added to both the `ResultSrc` and `ImmSrc` signals. For `ResultSrc`, (explain why). For `ImmSrc`, (explain why). 
+
+Unlike the schematic, `fn3` is also read by the main decoder, as it is required to determine whether a B-type instruction was performing a `bne` or `beq` function, through the following line of code: 
+
+```systemverilog
+Branch = (fn3 == 3'b001) ? !Zero : Zero;
+```
+
+which then determines `PCSrc`:
+
+```systemverilog
+assign PCSrc = Branch ? 1'b1 : 1'b0;
+```
+For `decode_alu.sv`, the internal logic `decoder` concatenates the following:
+
+```systemverilog
+assign decoder = {ALUOp, fn3, opcode[5], fn7[5]}; 
+```
+This is used to determine the `ALUControl` output signal. 
+
+(table)
+
+//Do I explain split of alu and main originally to simplify complexity?
+#### **Pipelining**
+(Table for new signals?) 
+
+<br>
+
+### The Instruction Memory
+
+#### **Single Cycle**
+The instruction memory reads from a hex file, which is assumed to be in little endian. As a result, every location in the ROM is 8 bits, and the total size of the ROM is 2^12, as only the least significant 12 bits change according to the memory map.
+
+(memory map)
+
+As the PC increments by 4 unless a `Jump` or `Branch` instruction is implemented, the `instr_mem.sv` module reads the instruction from the input address and concatenates it with the next three instructions to output the full 32-bit instruction `RD`.
+
+//talk about learning little endian in PS
+
+#### **Pipelining**
+
+<br>
+
+
+### The Data Memory
+
+
+
+//I can talk about fixing this in PS, and the challenges of not incrementing by 4 like instr_mem
+#### **Single Cycle**
+
+#### **Pipelining**

@@ -1,4 +1,4 @@
-module decodealu (
+module decode_alu (
     input logic [1:0] ALUOp,
     input logic [6:0] opcode,
     input logic [2:0] fn3,

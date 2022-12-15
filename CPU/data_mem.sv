@@ -1,4 +1,4 @@
-module datamem #(
+module data_mem #(
     parameter EXT_WIDTH = 32,   //width if external signals
               DATA_WIDTH = 8    //Width of data in datamem
 )(

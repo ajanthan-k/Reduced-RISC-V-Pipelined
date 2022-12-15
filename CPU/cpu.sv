@@ -34,7 +34,7 @@ PC_top PC_top (
 );
 
 //green
-instrmem rom (
+instr_mem rom (
     .A(PC),
     .RD(instr)
 );

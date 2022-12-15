@@ -1,4 +1,4 @@
-module decodemain #(
+module decode_main #(
         parameter D_WIDTH = 32
     )(
     input logic Zero, //AND with Branch

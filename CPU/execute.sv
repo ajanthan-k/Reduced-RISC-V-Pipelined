@@ -59,7 +59,7 @@ ALU ALU (
    .Zero (Zero)
 );
 
-datamem datamem (
+data_mem datamem (
   .RD (readata),
   .clk (clk),
   .A (ALUout),

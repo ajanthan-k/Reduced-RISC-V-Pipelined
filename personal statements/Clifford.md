@@ -1,19 +1,11 @@
 
 # Clifford's Personal Statement
 
-___
-
-## Contents
+## Brief Overview
 
 ___
 
-This statement must be succinct and to the point, yet must include sufficient details for me to check against the push history of the repo so that any claims can be verified. Including:
-
-* links to a selection of specific commits which demonstrate your work is advised. If you work with another member of your group on a module, make sure to give them
-
-* [co-author credit](https://docs.github.com/en/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/creating-a-commit-with-multiple-authors#creating-co-authored-commits-on-the-command-line).
-
-As per the contributions table in the rtl folder, I worked on the instruction memory, control unit and data memory modules, which will be explained below.
+As per the contributions table in the `rtl` folder, I worked on the instruction memory, control unit and data memory modules, which will be explained below. Note that three of the following links are directed to Ajanthan's commits, as they were committed on his laptop.
 
 <br>
 
@@ -25,9 +17,13 @@ ___
 
 ### **Single Cycle**
 
-The control unit was constructed based on the schematic below, and thus consists of three modules: `control.sv`, `decode_main.sv`, and `decode_alu.sv` (link), where `control.sv` acts as the top level module linking the other two modules.
+The control unit was constructed based on the schematic below, and thus consists of three modules: `control.sv`, `decode_main.sv`, and `decode_alu.sv`, where `control.sv` acts as the top level module linking the other two modules.
 
-<p align="center"> <img src="Images/control_unit_view.jpg" /> </p><br>
+<center>
+
+<img src = "https://user-images.githubusercontent.com/105637297/208180648-9b10f717-c680-4ce0-8a05-4e196ebdadc8.jpg" width=500> <br>
+
+</center>
 
 The above signals were implemented in `decode_main.sv` and each have the following functions:
 
@@ -96,7 +92,11 @@ This is used to determine the `ALUControl` output signal. This signal tells the 
 
 For pipelining, the following changes were made to the control unit:
 
-<p align="center"> <img src="Images/cpu_pipeline.jpg" /> </p><br>
+<center>
+
+<img src = "https://user-images.githubusercontent.com/105637297/208183419-8f37192c-07e4-42ff-974e-6e13f19e7f75.jpg" width=750> <br>
+
+</center>
 
 * The `PCSrc` signal is generated outside the control unit with the two logic gates as depicted above, unlike the basic single cycle processor found in this project.
 * The `Zero` input and `PCSrc` output are computed in a [seperate top module](https://github.com/EIE2-IAC-Labs/iac-riscv-cw-36/commit/822897e0957bef3a34e3d461021f7ca142bf6f44#diff-cf9e4f5c9ccce7dad345c40c123f1f0bcaa421b506925dde71b4f11a274814e5) `Execute_top.sv`, as depicted in the slide above. This is done as `Zero` is not computed until the execute stage.
@@ -127,9 +127,13 @@ ___
 
 ### **Single Cycle and Pipelining**
 
-The instruction memory reads from a hex file, which is assumed to be in little endian. As a result, every location in the ROM is [8 bits](https://github.com/EIE2-IAC-Labs/iac-riscv-cw-36/commit/53ae3a052caec722c954ead25ef9e07848f502b4#diff-5c422521aa2665e5cb94f547429436db226b6838f6f5b1b20a764e0b8ad53423), and the total size of the ROM is 2<sup>12</sup>, as only the [least significant 12 bits](https://github.com/EIE2-IAC-Labs/iac-riscv-cw-36/commit/bf94e31e0fc0c54cbce4a9961dbf47d9b5ca7a16#diff-5c422521aa2665e5cb94f547429436db226b6838f6f5b1b20a764e0b8ad53423) change according to the memory map.
+The instruction memory reads from a hex file, which is assumed to be in little endian. As a result, every location in the ROM is [8 bits](https://github.com/EIE2-IAC-Labs/iac-riscv-cw-36/commit/53ae3a052caec722c954ead25ef9e07848f502b4#diff-5c422521aa2665e5cb94f547429436db226b6838f6f5b1b20a764e0b8ad53423), and the total size of the ROM is 2<sup>12</sup>, as only the [least significant 12 bits](https://github.com/EIE2-IAC-Labs/iac-riscv-cw-36/commit/bf94e31e0fc0c54cbce4a9961dbf47d9b5ca7a16#diff-5c422521aa2665e5cb94f547429436db226b6838f6f5b1b20a764e0b8ad53423)
 
-<p align="center"> <img src="Images/memory_map.jpg" /> </p><br>
+<center>
+
+<img src = "https://user-images.githubusercontent.com/105637297/208183651-e4bd301d-24df-4699-84a8-eca4dba00359.jpg" width=360> <br>
+
+</center>
 
 As the PC increments by 4 unless a `Jump` or `Branch` instruction is implemented, the `instr_mem.sv` module reads the instruction from the input address and concatenates it with the next three instructions to output the[ full 32-bit instruction `RD`.](https://github.com/EIE2-IAC-Labs/iac-riscv-cw-36/commit/53ae3a052caec722c954ead25ef9e07848f502b4#diff-5c422521aa2665e5cb94f547429436db226b6838f6f5b1b20a764e0b8ad53423)
 
@@ -167,4 +171,4 @@ ___
 
 As I worked on the control unit and was fairly involved in other components, I gained a deeper understanding of the different functions and the overall relationship between each component in the processor. I also better understood how memory works in the lower levels of a RISC-V processor. Moreover, as this is the first time I ever used SystemVerilog and GitHub in a collaborative project, I not only gained some level of competency in the HDL, but also learnt how to better allocate work between each member and improve the efficiency of collaborative efforts while working on the same problem.
 
-If we were to work on this project again, we would test each stage or section of the processor individually before debugging the whole CPU after all components were written. Additionally, pull requests would be enforced on GitHub, and having multiple people work on the same branch simultaneously would be discouraged.
+If we were to work on this project again, we would test each stage or section of the processor individually before debugging the whole CPU after all components were written. Additionally, pull requests would be enforced on GitHub, and having multiple people work on the same branch simultaneously would be discouraged. Finally, co-author commits should be used more often to more accurately represent contributions in commit history.

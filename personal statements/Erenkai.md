@@ -21,7 +21,7 @@ addi a0, a0, 1
 bne  a3, t1, light_up_loop  
 ```                                 
 
-<p align="center"> <img src="Images/pic_1.jpg" /> </p><br>
+<p align="center"> <img src="https://user-images.githubusercontent.com/105637297/208183874-83ce4979-c547-478f-aaf6-1e245019fe19.jpg" /> </p><br>
 
 **Random Generator Loop:**
 
@@ -37,7 +37,7 @@ xor a6, a6, a7      # x3 xor x4
 or a4, a4, a6       # a4 is the new random number for delaying #working with bits
 ```
 
-<p align="center"> <img src="Images/pic_2.jpg" /> </p><br>
+<p align="center"> <img src="https://user-images.githubusercontent.com/105637297/208184125-6933484e-e61c-4669-ac64-75f77fa6774b.jpg" /> </p><br>
 
 **Delay & Close Light Loop:**
 
@@ -81,11 +81,11 @@ li a4 1
    
  - The diagram below describes our layout, in this case, module named decode, execute, memory and writeback each will contain a failing edge register.
 
-<p align="center"> <img src="Images/pic_3.jpg" /> </p><br>
+<p align="center"> <img src="https://user-images.githubusercontent.com/105637297/208184206-7273970a-9c83-4bb3-bcb5-9c6a0be0143d.jpg" width=800/> </p><br>
 
  - The challenge we faced is the fact that the original top file is too messy and not well organized. The diagram below describes the top file layout for our single cycle CPU, at start we didn’t have experience on writing CPU, so the top layout for original single cycle CPU is not well designed, due to complicated layout, reconstruction become essential for pipelining. If we spent more time on planning the layout at the very beginning, we won’t come up a plan that redesign the entire CPU, the layout for original single cycle CPU should be similar compare to the pipelining CPU.
  
- <p align="center"> <img src="Images/pic_4.jpg" /> </p><br>
+ <p align="center"> <img src="https://user-images.githubusercontent.com/105637297/208184486-8c4aefd9-de15-48ba-a1ab-445820dc0e07.jpg" width=700 /> </p><br>
 
  -  Challenges are also encountered when I start the reconstruction. The pipelining CPU adds a number of instructions, especially for the control unit. In addition, we decide to rename the instruction in order to synchronize with the provided diagram, we believe this will lower the difficulty for debug, however the rename process is  more complicated than I thought, it is crucial that each logic needs to be renamed completely, we have encounter errors that some of logic have several versions of names due to typo and miss checked. However, most of these issues can be solved if the name of logic is synchronized with the coming plan.
  - To sum up, I learn that it is essential to spent on planning, take this CPU task as a example, we should be careful with the layer at the very beginning, success can only be achieve with stand foundation. 

@@ -5,9 +5,9 @@ module Memory_top #(
   input logic    clk,
 
   //control signals
-  input logic RegWriteD,
-  input logic [1:0] ResultSrcD,
-  input logic MemWriteD,
+  input logic RegWriteE,
+  input logic [1:0] ResultSrcE,
+  input logic MemWriteE,
   //others
   input logic [WIDTH-1:0] ALUResultE,
   input logic [WIDTH-1:0] WriteDataE,
@@ -25,8 +25,8 @@ module Memory_top #(
 );
   
 
-  logic [WIDTH-1:0] WriteDataM,
-  logic [WIDTH-1:0] MemWriteM,
+  logic [WIDTH-1:0] WriteDataM;
+  logic MemWriteM;
 
 //Exec2Mem_reg
 always_ff @(posedge clk) begin
@@ -46,7 +46,7 @@ datamem datamem (
    .A (ALUResultM) ,  
    .WD (WriteDataM),
    .WE (MemWriteM),
-   .RD (RD)
+   .RD (ReadDataM)
 );
 
 endmodule

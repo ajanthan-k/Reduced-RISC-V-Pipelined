@@ -1,9 +1,9 @@
 module cpu #(
-    parameter ADDRESS_WIDTH = 32
+    parameter WIDTH = 32
 )(
     input clk,
     input rst,
-    output [ADDRESS_WIDTH-1:0] a0
+    output [WIDTH-1:0] a0
 
 );
 //fetch
@@ -27,7 +27,7 @@ module cpu #(
     logic [WIDTH-1:0] PCD; 
     logic [4:0] RdD;
     logic [WIDTH-1:0] ImmExtD;
-    logic [WIDTH-1:0] PCPlus4D; // ResultW and RdW declared later
+    logic [WIDTH-1:0] PCPlus4D; 
 
 //Control Hazard
     logic flush;
@@ -37,11 +37,9 @@ module cpu #(
     logic  RegWriteE;
     logic [1:0] ResultSrcE;
     logic  MemWriteE;
-    logic  PCSrcE; 
     //others
     logic [WIDTH-1:0] ALUResultE;
     logic [WIDTH-1:0] WriteDataE;
-    logic [WIDTH-1:0] PCTargetE;
     logic [4:0] RdE;
     logic [WIDTH-1:0] PCPlus4E;
 
@@ -59,32 +57,30 @@ module cpu #(
     //control signals output   
     logic RegWriteW;
     //others
-    logic [WIDTH-1:0] RdW;
+    logic [4:0] RdW;
     logic [WIDTH-1:0] ResultW;
 
-assign flush = (PCSrcE = 1) ? 1:0;
+assign flush = (PCSrcE == 1) ? 1:0;
 
 Fetch_top fetch (
     .clk(clk),
     .rst(rst),
-    .PCsrcE(PCsrcE),
+    .PCSrcE(PCSrcE),
     .PCTargetE(PCTargetE),
     .PCF(PCF),
     .InstrF(InstrF),
-    //control hazard
-    .flush (flush),
-    //----
     .PCPlus4F(PCPlus4F)
 );
 
 Decode_top decode (
     .clk(clk),
+    .flush(flush),
     .PCF(PCF),
     .InstrF(InstrF),
-    .PCF(PCF)
     .PCPlus4F(PCPlus4F),
     .RdW(RdW),
-    .ResultW(ResultW)
+    .ResultW(ResultW),
+    .RegWriteW(RegWriteW),
 
     .RegWriteD(RegWriteD),
     .ResultSrcD(ResultSrcD),
@@ -100,7 +96,8 @@ Decode_top decode (
     .PCD(PCD), 
     .RdD(RdD), 
     .ImmExtD(ImmExtD),
-    .PCPlus4D(PCPlus4D)
+    .PCPlus4D(PCPlus4D),
+    .a0(a0)
 );
 
 Execute_top execute (
@@ -112,7 +109,9 @@ Execute_top execute (
     .BranchD(BranchD),
     .ALUControlD(ALUControlD),
     .ALUSrcD(ALUSrcD),
-    // white section
+    .JALRctrlD(JALRctrlD),
+    .flush(flush),
+ 
     .RD1D(RD1D),
     .RD2D(RD2D),
     .PCD(PCD),
@@ -134,9 +133,9 @@ Execute_top execute (
 Memory_top memory (
     .clk(clk),
     // control signals
-    .RegWriteD(RegWriteD),
-    .ResultSrcD(ResultSrcD),
-    .MemWriteD(MemWriteD),
+    .RegWriteE(RegWriteE),
+    .ResultSrcE(ResultSrcE),
+    .MemWriteE(MemWriteE),
     // others 
     .ALUResultE(ALUResultE),
     .WriteDataE(WriteDataE),
@@ -144,12 +143,12 @@ Memory_top memory (
     .PCPlus4E(PCPlus4E),
     // control output signals
     .RegWriteM(RegWriteM),
-    .ResultSrM(ResultSrM),
+    .ResultSrcM(ResultSrcM),
     //others 
     .ALUResultM(ALUResultM),
     .ReadDataM(ReadDataM),
     .RdM(RdM),
-    .PCPlus4M(PCPlus4M),
+    .PCPlus4M(PCPlus4M)
 );
 
 Writeback_top writeback (
@@ -166,7 +165,7 @@ Writeback_top writeback (
     .RegWriteW(RegWriteW),
 //others 
     .RdW(RdW),
-    .ResultW(ResultW),
+    .ResultW(ResultW)
 );
 
 endmodule

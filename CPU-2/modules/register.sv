@@ -3,9 +3,9 @@ module register #(
               DATA_WIDTH = 32
 )(
     input logic clk,
-    input logic [ADDRESS_WIDTH-1:0] A1,    
-    input logic [ADDRESS_WIDTH-1:0] A2,
-    input logic [ADDRESS_WIDTH-1:0] A3,
+    input logic [ADDRESS_WIDTH-1:0] AD1,    
+    input logic [ADDRESS_WIDTH-1:0] AD2,
+    input logic [ADDRESS_WIDTH-1:0] AD3,
 
     input logic WE3,
     input logic [DATA_WIDTH-1:0] WD3,
@@ -13,13 +13,14 @@ module register #(
     output logic [DATA_WIDTH-1:0] a0,
     output logic [DATA_WIDTH-1:0] RD1,
     output logic [DATA_WIDTH-1:0] RD2
+
 );
 
     logic [DATA_WIDTH-1:0] ram_array [2**ADDRESS_WIDTH-1:0];
 
     always_comb begin
-        RD1 = ram_array[A1];
-        RD2 = ram_array [A2];
+        RD1 = ram_array[AD1];
+        RD2 = ram_array [AD2];
     end
 
     initial begin
@@ -28,8 +29,8 @@ module register #(
         end
     end
 
-    always_ff @ (negedge clk) begin
-        if ((WE3) && (A3 != 0))  ram_array[A3] <= WD3;
+    always_ff @ (posedge clk) begin
+        if ((WE3) && (AD3 != 0))  ram_array[AD3] <= WD3;
     end
 
     assign a0 = ram_array[10];

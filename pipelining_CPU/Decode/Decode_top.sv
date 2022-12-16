@@ -5,13 +5,14 @@ module Decode_top #(
 
     //control hazard
     input logic flush,
-
+    //fetch signals 
     input logic [WIDTH-1:0] InstrF,
     input logic [WIDTH-1:0] PCF,
     input logic [WIDTH-1:0] PCPlus4F,
     //for reg file
-    input logic [4:0] RdW, //5 bit from instr a few cycles ago
+    input logic [4:0] RdW,
     input logic [WIDTH-1:0] ResultW,
+    input logic RegWriteW,
 
     //control unit signals
     output logic RegWriteD,
@@ -28,32 +29,28 @@ module Decode_top #(
     output logic [WIDTH-1:0] PCD, 
     output logic [4:0] RdD, 
     output logic [WIDTH-1:0] ImmExtD,
-    output logic [WIDTH-1:0] PCPlus4D, 
+    output logic [WIDTH-1:0] PCPlus4D,
+    output logic [WIDTH-1:0] a0
 );
+
 logic [WIDTH-1:0] InstrD;
 logic [2:0] ImmSrcD;
 
-// fetch2decode_Reg
-// always_ff @(posedge clk) begin
-//     InstrD <= InstrF;
-//     PCD <= PCF;
-//     PCPlus4D <= PCPlus4F;
-// end
+assign RdD = InstrD[11:7]; 
 
-//fix control hazard v1
+//fix control hazard 
 always_ff @(posedge clk) begin
-    if (flush) 
-        instrF <= 0;
-        PCF <= 0;
-        PCPlus4F <= 0;
-    else 
-        instrD <= instrF;
+    if (flush) begin
+        InstrD <= 0;
+        PCD <= 0;
+        PCPlus4D <= 0;
+    end
+    else begin
+        InstrD <= InstrF;
         PCD <= PCF;
         PCPlus4D <= PCPlus4F;
+    end
 end
-
-
-assign RdD = InstrD[11:7]; //potential time errors amd more here
 
 control ctrl (
     .Instr(InstrD),
@@ -65,13 +62,14 @@ control ctrl (
     .ALUControl(ALUControlD),
     .ALUSrc(ALUSrcD),
     .ImmSrc(ImmSrcD),
-    .JALRctrl(JALRctrlD) //Hm
+    .JALRctrl(JALRctrlD)
 );
 
 register Reg_File (
     .clk(clk),
-    .A1(Instr[19:15]),
-    .A2(Instr[24:20]),
+    .WE3(RegWriteW),
+    .A1(InstrD[19:15]),
+    .A2(InstrD[24:20]),
     .A3(RdW),
     .WD3(ResultW),
     .RD1(RD1D),
@@ -83,6 +81,6 @@ extend extd (
     .Instr(InstrD),
     .ImmSrc(ImmSrcD),
     .ImmExt(ImmExtD)
-)
+);
     
 endmodule

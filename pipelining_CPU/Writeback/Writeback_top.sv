@@ -16,7 +16,7 @@ module Writeback_top #(
   //control signals output
   output logic RegWriteW,
   //others
-  output logic [WIDTH-1:0] RdW,
+  output logic [4:0] RdW,
   output logic [WIDTH-1:0] ResultW
 );
 
@@ -33,19 +33,17 @@ always_ff @(posedge clk) begin
     ResultSrcW <= ResultSrcM;
     //others
     ALUResultW <= ALUResultM;
-    WriteDataW <= WriteDataM;
+    ReadDataW <= ReadDataM;
     RdW <= RdM;
     PCPlus4W <= PCPlus4M;
 end
 
 Writeback_mux Writeback_mux (
-
-  .ALUResultW (ALUResultW);
-  .ReadDataW (ReadDataW);
-  .PCPlus4W (PCPlus4W);
-  .ResultW (ResultW);
+  .ALUResultW (ALUResultW),
+  .ReadDataW (ReadDataW),
+  .PCPlus4W (PCPlus4W),
+  .ResultW (ResultW),
   .ResultSrcW (ResultSrcW)
-
 );
 
 endmodule

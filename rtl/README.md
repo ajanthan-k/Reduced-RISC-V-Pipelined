@@ -7,8 +7,8 @@
 |**Module**|**Ajanthan**|**Clifford**|**Erenkai**|**Jim**|
 |:-------|:------------:|:-------:|:-------:|:---------:|
 |**Assembly**|
-| assembly.s |    X     |        |     *    |           |
-| realassembly.s |  X   |        |     *    |           |
+| F1Program.s |  X   |        |     *    |           |
+| F1Pipeline.s |  X   |        |     *    |           |
 |**Top**|
 | cpu.sv |        X     |    X    |    *    |     X     |
 | cpu_tb.cpp |    *     |         |         |           |

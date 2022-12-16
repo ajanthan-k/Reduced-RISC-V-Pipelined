@@ -17,3 +17,5 @@ For the pipelined design:
 * Jim Zhu: Writeback Stage, stage registers for writeback, memory and execute
 
 For specific module contributions, see the `README.md` file in `rtl`. For explanations for each component of the design, see each member's Personal Statements.
+
+On pipelined-design branch, find video tests for pipelined results. On the main branch, CPU-2 contains the source for the single cycle processor, which is run with runF1.sh. Make sure to run change datamem  and instrmem when readomng ref

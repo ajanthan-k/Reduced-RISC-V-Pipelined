@@ -19,11 +19,8 @@ ___
 
 The control unit was constructed based on the schematic below, and thus consists of three modules: `control.sv`, `decode_main.sv`, and `decode_alu.sv`, where `control.sv` acts as the top level module linking the other two modules.
 
-<center>
 
-<img src = "https://user-images.githubusercontent.com/105637297/208180648-9b10f717-c680-4ce0-8a05-4e196ebdadc8.jpg" width=500> <br>
-
-</center>
+<p align="center"> <img src = "https://user-images.githubusercontent.com/105637297/208180648-9b10f717-c680-4ce0-8a05-4e196ebdadc8.jpg" width=500> </p> <br>
 
 The above signals were implemented in `decode_main.sv` and each have the following functions:
 
@@ -92,11 +89,7 @@ This is used to determine the `ALUControl` output signal. This signal tells the 
 
 For pipelining, the following changes were made to the control unit:
 
-<center>
-
-<img src = "https://user-images.githubusercontent.com/105637297/208183419-8f37192c-07e4-42ff-974e-6e13f19e7f75.jpg" width=750> <br>
-
-</center>
+<p align="center"> <img src = "https://user-images.githubusercontent.com/105637297/208183419-8f37192c-07e4-42ff-974e-6e13f19e7f75.jpg" width=750> </p><br>
 
 * The `PCSrc` signal is generated outside the control unit with the two logic gates as depicted above, unlike the basic single cycle processor found in this project.
 * The `Zero` input and `PCSrc` output are computed in a [seperate top module](https://github.com/EIE2-IAC-Labs/iac-riscv-cw-36/commit/822897e0957bef3a34e3d461021f7ca142bf6f44#diff-cf9e4f5c9ccce7dad345c40c123f1f0bcaa421b506925dde71b4f11a274814e5) `Execute_top.sv`, as depicted in the slide above. This is done as `Zero` is not computed until the execute stage.
@@ -129,9 +122,7 @@ ___
 
 The instruction memory reads from a hex file, which is assumed to be in little endian. As a result, every location in the ROM is [8 bits](https://github.com/EIE2-IAC-Labs/iac-riscv-cw-36/commit/53ae3a052caec722c954ead25ef9e07848f502b4#diff-5c422521aa2665e5cb94f547429436db226b6838f6f5b1b20a764e0b8ad53423), and the total size of the ROM is 2<sup>12</sup>, as only the [least significant 12 bits](https://github.com/EIE2-IAC-Labs/iac-riscv-cw-36/commit/bf94e31e0fc0c54cbce4a9961dbf47d9b5ca7a16#diff-5c422521aa2665e5cb94f547429436db226b6838f6f5b1b20a764e0b8ad53423)
 
-<center>
-
-<img src = "https://user-images.githubusercontent.com/105637297/208183651-e4bd301d-24df-4699-84a8-eca4dba00359.jpg" width=360> <br>
+<p align="center"> <img src = "https://user-images.githubusercontent.com/105637297/208183651-e4bd301d-24df-4699-84a8-eca4dba00359.jpg" width=360>  </p> <br>
 
 </center>
 

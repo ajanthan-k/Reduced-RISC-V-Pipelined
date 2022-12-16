@@ -82,11 +82,29 @@ The control unit was constructed based on the schematic on Slides 17-19 from Lec
 
 The above signals were implemented in `decode_main.sv` and each have the following functions:
 
-(Table of basic signals from top left diagram in OneNote and their functions including ALUOp)
+<center>
 
-In addition to these signals, the `JALRctrl` signal was added...(explain fn/purpose)
+|**Control Signal**|**Function**|
+|:-------|:------------|
+|RegWrite| Tells `register.sv` to write to `rd` when high |
+|ImmSrc | Tells `extend.sv` the instruction type (I,S,B,U,J)*
+|ALUSrc  | Selects sign extension when high, `RD2` when low|
+|MemWrite| Tells `data_mem.sv` to perform a store instruction when high|
+|ResultSrc| Selects `ALUResult` or `ReadData` or `PCPlus4`**
+|ALUOp  | Tells `decode_alu.sv` the instruction type for `ALUControl` output
+|Branch | High when branch or jump instruction is called. See below for further explanation.
+|PCSrc  | Signals Program Counter to jump to next location instead of incrementing by 4 when high
+|JALRctrl| ????
 
-Moreover, an extra bit was added to both the `ResultSrc` and `ImmSrc` signals. For `ResultSrc`, (explain why). For `ImmSrc`, (explain why). 
+</center>
+
+*Extra bit added to make `ImmSrc` 3-bit instead of 2-bit, as there are more than 4 instruction types that require sign extension.
+
+**Extra bit added to make `ResultSrc` 2-bit to select between 3 options. `PCPlus4` is for the `JAL` and `JALR` instructions.
+
+<br>
+
+In addition to the signals in the schematic, the `JALRctrl` signal was added...(explain fn/purpose)
 
 Unlike the schematic, `fn3` is also read by the main decoder, as it is required to determine whether a B-type instruction was performing a `bne` or `beq` function, through the following line of code: 
 
@@ -94,22 +112,41 @@ Unlike the schematic, `fn3` is also read by the main decoder, as it is required 
 Branch = (fn3 == 3'b001) ? !Zero : Zero;
 ```
 
-which then determines `PCSrc`:
+where input signal `Zero` is high when `RD1 == RD2` in the ALU. This then determines `PCSrc`:
 
 ```systemverilog
 assign PCSrc = Branch ? 1'b1 : 1'b0;
 ```
+
 For `decode_alu.sv`, the internal logic `decoder` concatenates the following:
 
 ```systemverilog
 assign decoder = {ALUOp, fn3, opcode[5], fn7[5]}; 
 ```
-This is used to determine the `ALUControl` output signal. 
 
-(table)
+This is used to determine the `ALUControl` output signal. This signal tells the ALU to perform the following functions:
+
+<center>
+
+|**ALUControl**|**Function**|
+|:-------|:------------|
+|000|add|
+|001|subtract|
+|010|and|
+|011|or|
+|100|xor|
+|101|lui*|
+|110|slli|
+|111|srli|
+
+</center>
+
+*This is different from the slides
 
 //Do I explain split of alu and main originally to simplify complexity?
+
 #### **Pipelining**
+
 (Table for new signals?) 
 
 <br>
@@ -132,9 +169,11 @@ As the PC increments by 4 unless a `Jump` or `Branch` instruction is implemented
 
 ### The Data Memory
 
-
-
 //I can talk about fixing this in PS, and the challenges of not incrementing by 4 like instr_mem
 #### **Single Cycle**
+
+The data memory functions in a similar fashion to the instruction memory, although it is also able to store new data in memory. Once again, the size of memory is determined by the memory map, as shown above. 
+
+This module is only able to perform the `lbu` and `sb` instructions, as these were the only instructions needed for both the reference and F1 program (link??). The `sb` instruction takes the least significant 8 bits of `RD2`, the second register determined by `register.sv`, and writes it to the address in memory according to `ALUResult` if the Write Enable signal `MemWrite` is high. The module then reads the 8-bit data stored in that address and zero extends it into a 32-bit result before outputting the data, thus performing the `lbu` instruction.
 
 #### **Pipelining**

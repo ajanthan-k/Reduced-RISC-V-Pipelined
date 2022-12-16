@@ -99,14 +99,14 @@ always_comb begin
 
 
         default: begin
-            RegWrite = 1'b0;
-            ImmSrc = 3'b000;
-            ALUSrc = 1'b0;
-            MemWrite = 1'b0;
-            ResultSrc = 2'b00;
-            ALUOp = 2'b0;
-            Branch = 1'b0;
-            JALRctrl = 1'b0;
+                RegWrite = 1'b0;
+                ImmSrc = 3'b000;
+                ALUSrc = 1'b0;
+                MemWrite = 1'b0;
+                ResultSrc = 2'b00;
+                ALUOp = 2'b0;
+                Branch = 1'b0;
+                JALRctrl = 1'b0;
         end
     endcase
 

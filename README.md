@@ -18,4 +18,6 @@ For the pipelined design:
 
 For specific module contributions, see the `README.md` file in `rtl`. For explanations for each component of the design, see each member's Personal Statements.
 
-On pipelined-design branch, find video tests for pipelined results. On the main branch, CPU-2 contains the source for the single cycle processor, which is run with runF1.sh. Make sure to run change datamem  and instrmem when readomng ref
+On pipelined-design branch, find video tests for pipelined results. On the main branch, CPU-2 contains the source for the single cycle processor, and the F1 program is run with runF1.sh. When changing programs, change both instr_mem.sv and data_mem.sv files respectively to run correct program. Reference program testing with vbuddy can be run with runref.sh.
+
+Pipelined design cpu source is also on main, with similar test files included - repeat as above changing respective files within Fetch and Memory files respectively.
